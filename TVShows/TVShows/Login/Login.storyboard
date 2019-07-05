@@ -38,18 +38,23 @@
                                 <color key="textColor" red="1" green="0.1909307073" blue="0.190708672" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="UC1-uZ-XSs">
+                                <rect key="frame" x="91" y="502" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="0.66422420739999999" green="0.66424006219999998" blue="0.66423153879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="9qd-7P-TEc"/>
                     </view>
                     <connections>
                         <outlet property="button" destination="wCo-dm-rhj" id="Zyd-du-O3o"/>
+                        <outlet property="indicator" destination="UC1-uZ-XSs" id="bMN-Ne-CxK"/>
                         <outlet property="touchCountLabel" destination="dJS-fm-DmS" id="WU2-Gs-Ie0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EyL-P1-6NZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-892" y="-464"/>
+            <point key="canvasLocation" x="-1369" y="-783"/>
         </scene>
     </scenes>
 </document>

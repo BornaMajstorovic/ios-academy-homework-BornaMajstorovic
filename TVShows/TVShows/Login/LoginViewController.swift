@@ -18,6 +18,7 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var button: UIButton!
     
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     @IBAction func touchBtn(_ sender: UIButton) {
         //  print("First HomeWork 🥳")
@@ -28,6 +29,12 @@ class LoginViewController: UIViewController {
         } else {
             sender.backgroundColor = #colorLiteral(red: 1, green: 0.1909307073, blue: 0.190708672, alpha: 1)
             touchCountLabel.textColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+        }
+        
+        if indicator.isAnimating {
+            indicator.stopAnimating()
+        } else {
+            indicator.startAnimating()
         }
     }
     
@@ -40,6 +47,12 @@ class LoginViewController: UIViewController {
     func setUpView(){
         button.layer.cornerRadius = 10
     }
+    
+    func automaticStart(){
+        indicator.startAnimating()
+     
+        }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
