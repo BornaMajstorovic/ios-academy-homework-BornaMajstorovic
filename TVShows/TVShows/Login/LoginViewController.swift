@@ -10,14 +10,8 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-   private(set) var touchCount = 0 {
-        didSet {
-            touchCountLabel.text = "Touch count: \(touchCount)"
-        }
-    }
-    
     @IBOutlet weak var button: UIButton!
-    
+    @IBOutlet private weak var touchCountLabel: UILabel!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     @IBAction func touchBtn(_ sender: UIButton) {
@@ -38,10 +32,17 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @IBOutlet private weak var touchCountLabel: UILabel!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setUpView()
+        automaticStart()
+    }
     
-    func setButtonIcon(){
-        button.setImage(UIImage(named: "inf.png"), for: UIControl.State.normal)
+    private(set) var touchCount = 0 {
+        didSet {
+            touchCountLabel.text = "Touch count: \(touchCount)"
+        }
     }
     
     func setUpView(){
@@ -50,20 +51,8 @@ class LoginViewController: UIViewController {
     
     func automaticStart(){
         indicator.startAnimating()
-     
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            self.indicator.stopAnimating()
         }
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setUpView()
-        setButtonIcon()
-        // Do any additional setup after loading the view.
     }
-    
-    
-   
-    
-   
-
 }
