@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "ic-checkbox-filled.pdf",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "infinity.png",
       "scale" : "2x"
     },
     {

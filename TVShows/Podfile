@@ -7,4 +7,5 @@ target 'TVShows' do
 
   # Pods for TVShows
   pod "MBProgressHUD"
+  pod 'SVProgressHUD'
 end
