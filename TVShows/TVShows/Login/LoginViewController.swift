@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 final class LoginViewController: UIViewController {
     
     
@@ -58,7 +59,7 @@ final class LoginViewController: UIViewController {
 //
 //    }
     
-    @IBAction func checkMarkTapped(_ sender: UIButton) {
+    @IBAction func checkButtonState(_ sender: UIButton) {
         UIView.animate(withDuration: 0.5, delay: 0.1, options: .curveLinear, animations: {
             sender.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             
