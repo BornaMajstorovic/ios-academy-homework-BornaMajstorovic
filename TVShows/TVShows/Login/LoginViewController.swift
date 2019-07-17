@@ -19,29 +19,34 @@ final class LoginViewController: UIViewController {
     
     
     // MARK: Outlets
+    
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var checkBoxButton: UIButton!
     @IBOutlet weak var loginButtonOutlet: UIButton!
     
+    
     // MARK: Properties
+    
     private var checkBoxCount = 0
     private var userSaved: User?
     private var userRegistered: User?
     private var token: String?
     
+    
     // MARK: Lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         loginButtonOutlet.layer.cornerRadius = 8
         checkBoxButton.setImage(UIImage(named: "ic-checkbox-empty"), for: .normal)
         checkBoxButton.setImage(UIImage(named: "ic-checkbox-filled"), for: .selected)
-        
     }
     
     
     // MARK: Actions
+    
     @IBAction func navigateFromLogin(_ sender: UIButton) {
         
         let storyBoard = UIStoryboard(name: "Login", bundle: nil)
@@ -52,13 +57,12 @@ final class LoginViewController: UIViewController {
     }
     
     @IBAction func loginUserButton(_ sender: UIButton) {
-        guard
-            let email = usernameTextField.text,
-            let password = passwordTextField.text
+        guard let email = usernameTextField.text, let password = passwordTextField.text, !email.isEmpty, !password.isEmpty
         else {
-            return
+                print("Username or password is empty")
+                return
         }
-        _loginUserWith(email: email, password: password)
+        loginUserWith(email: email, password: password)
         
     }
     
@@ -68,11 +72,11 @@ final class LoginViewController: UIViewController {
             print("Username or password is empty")
             return
         }
-          _alamofireCodableRegisterUserWith(email: email, password: password)
+          registerUserWith(email: email, password: password)
     }
     
     @IBAction func checkButtonState(_ sender: UIButton) {
-        UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveLinear, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.1, options: .curveLinear, animations: {
             sender.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             }) { (success) in
             UIView.animate(withDuration: 0.5, delay: 0.1, options: .curveLinear, animations: {
@@ -87,8 +91,9 @@ final class LoginViewController: UIViewController {
 // TODO: promise call
 
 // Mark: API calls
+
 private extension LoginViewController {
-    func _alamofireCodableRegisterUserWith(email: String, password: String) {
+    func registerUserWith(email: String, password: String) {
         SVProgressHUD.show()
         
         let parameters: [String: String] = [
@@ -105,9 +110,9 @@ private extension LoginViewController {
                  .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { (response: DataResponse<User>) in
                     switch response.result {
                         case .success(let user):
-                             SVProgressHUD.showSuccess(withStatus: "Success")
+                            SVProgressHUD.showSuccess(withStatus: "Success")
                             self.userSaved = user
-                            self._loginUserWith(email: email, password: password)
+                            self.loginUserWith(email: email, password: password)
                         case .failure(let error):
                             SVProgressHUD.showError(withStatus: "Failure")
                             print("API failure: \(error)")
@@ -119,7 +124,7 @@ private extension LoginViewController {
 }
 
 private extension LoginViewController {
-    func _loginUserWith(email: String, password: String) {
+    func loginUserWith(email: String, password: String) {
         SVProgressHUD.show()
         
         let parameters: [String: String] = [
@@ -132,17 +137,16 @@ private extension LoginViewController {
                            parameters: parameters,
                            encoding: JSONEncoding.default)
                 .validate()
-            .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { [weak self] (response: DataResponse<LoginData>) in
-                switch response.result {
-                case .success(let loginData):
-                    SVProgressHUD.showSuccess(withStatus: "Success")
-                    self?.token = loginData.token
-                case .failure(let error):
-                    SVProgressHUD.showError(withStatus: "Failure")
-                    print(error.localizedDescription)
-                }
+                .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { [weak self] (response: DataResponse<LoginData>) in
+                    switch response.result {
+                    case .success(let loginData):
+                        SVProgressHUD.showSuccess(withStatus: "Success")
+                        self?.token = loginData.token
+                    case .failure(let error):
+                        SVProgressHUD.showError(withStatus: "Failure")
+                        print(error.localizedDescription)
+                    }
                 SVProgressHUD.dismiss()
             }
     }
-    
 }
