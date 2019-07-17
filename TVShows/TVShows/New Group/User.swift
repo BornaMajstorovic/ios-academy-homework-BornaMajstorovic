@@ -19,6 +19,6 @@ struct User: Codable {
         case id = "_id"
     }
 }
-struct loginData: Codable {
+struct LoginData: Codable {
     let token: String
 }

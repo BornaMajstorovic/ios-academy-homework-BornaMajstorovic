@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		023B3D7D22DDC480008164FA /* user.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023B3D7C22DDC480008164FA /* user.swift */; };
+		0205270822DF8F17002FE334 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0205270722DF8F17002FE334 /* User.swift */; };
 		0241CB9E22CFD88300F8E986 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0241CB9D22CFD88300F8E986 /* Login.storyboard */; };
 		0241CBA022CFD91900F8E986 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0241CB9F22CFD91900F8E986 /* LoginViewController.swift */; };
 		026EF52D22DC6CBA006F0265 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026EF52C22DC6CBA006F0265 /* HomeViewController.swift */; };
@@ -18,7 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		023B3D7C22DDC480008164FA /* user.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = user.swift; sourceTree = "<group>"; };
+		0205270722DF8F17002FE334 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		0241CB9D22CFD88300F8E986 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Login.storyboard; path = TVShows/Login/Login.storyboard; sourceTree = SOURCE_ROOT; };
 		0241CB9F22CFD91900F8E986 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = TVShows/Login/LoginViewController.swift; sourceTree = SOURCE_ROOT; };
 		026EF52C22DC6CBA006F0265 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +60,7 @@
 			children = (
 				0241CB9D22CFD88300F8E986 /* Login.storyboard */,
 				0241CB9F22CFD91900F8E986 /* LoginViewController.swift */,
+				0205270722DF8F17002FE334 /* User.swift */,
 			);
 			name = Login;
 			path = "New Group";
@@ -89,7 +90,6 @@
 				023B3D7B22DDC429008164FA /* Resources */,
 				0241CB9C22CFD66600F8E986 /* Login */,
 				026EF52C22DC6CBA006F0265 /* HomeViewController.swift */,
-				023B3D7C22DDC480008164FA /* user.swift */,
 			);
 			path = TVShows;
 			sourceTree = "<group>";
@@ -226,7 +226,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				023B3D7D22DDC480008164FA /* user.swift in Sources */,
+				0205270822DF8F17002FE334 /* User.swift in Sources */,
 				0241CBA022CFD91900F8E986 /* LoginViewController.swift in Sources */,
 				02DBE1F622CE53ED00BE29DA /* AppDelegate.swift in Sources */,
 				026EF52D22DC6CBA006F0265 /* HomeViewController.swift in Sources */,
