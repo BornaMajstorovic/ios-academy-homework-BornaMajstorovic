@@ -12,9 +12,6 @@ import CodableAlamofire
 import SVProgressHUD
 import PromiseKit
 
-
-
-
 final class LoginViewController: UIViewController {
     
     
@@ -42,19 +39,13 @@ final class LoginViewController: UIViewController {
         loginButtonOutlet.layer.cornerRadius = 8
         checkBoxButton.setImage(UIImage(named: "ic-checkbox-empty"), for: .normal)
         checkBoxButton.setImage(UIImage(named: "ic-checkbox-filled"), for: .selected)
+        
+        self.navigationController?.isNavigationBarHidden = true;
     }
     
     
     // MARK: Actions
-    
-    @IBAction func navigateFromLogin(_ sender: UIButton) {
-        
-        let storyBoard = UIStoryboard(name: "Login", bundle: nil)
-        
-        let viewController = storyBoard.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-        
-        navigationController?.pushViewController(viewController, animated: true)
-    }
+
     
     @IBAction func loginUserButton(_ sender: UIButton) {
         guard let email = usernameTextField.text, let password = passwordTextField.text, !email.isEmpty, !password.isEmpty
@@ -78,19 +69,34 @@ final class LoginViewController: UIViewController {
     @IBAction func checkButtonState(_ sender: UIButton) {
         UIView.animate(withDuration: 0.5, delay: 0.1, options: .curveLinear, animations: {
             sender.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-            }) { (success) in
+            }) {(success) in
             UIView.animate(withDuration: 0.5, delay: 0.1, options: .curveLinear, animations: {
                 sender.isSelected = !sender.isSelected
                 sender.transform = .identity
             }, completion: nil)
         }
     }
+    
+    // MARK: class methods
+    
+    private func navigateFromLogin() {
+        
+        let storyBoard = UIStoryboard(name: "Login", bundle: nil)
+        
+        if let homeViewController = storyBoard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController {
+            homeViewController.loginUser = userSaved
+            homeViewController.token = token
+            navigationController?.pushViewController(homeViewController, animated: true)
+        }
+    }
+    
 }
+
 
 
 // TODO: promise call
 
-// Mark: API calls
+// MARK: API calls
 
 private extension LoginViewController {
     func registerUserWith(email: String, password: String) {
@@ -142,11 +148,23 @@ private extension LoginViewController {
                     case .success(let loginData):
                         SVProgressHUD.showSuccess(withStatus: "Success")
                         self?.token = loginData.token
+                        self?.navigateFromLogin()
                     case .failure(let error):
                         SVProgressHUD.showError(withStatus: "Failure")
+                        self?.showAlert(title: "Error", message: error.localizedDescription)
                         print(error.localizedDescription)
                     }
                 SVProgressHUD.dismiss()
             }
+    }
+}
+
+extension UIViewController {
+    func showAlert(title: String, message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(action)
+        
+        self.present(alert, animated: true, completion: nil)
     }
 }
