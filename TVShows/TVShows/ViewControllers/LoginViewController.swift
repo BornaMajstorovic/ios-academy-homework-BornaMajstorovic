@@ -41,6 +41,7 @@ final class LoginViewController: UIViewController {
         checkBoxButton.setImage(UIImage(named: "ic-checkbox-filled"), for: .selected)
         
         self.navigationController?.isNavigationBarHidden = true;
+     // navigationController?.setViewControllers([HomeViewController], animated: true)
     }
     
     

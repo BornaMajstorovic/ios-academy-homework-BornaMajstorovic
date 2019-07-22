@@ -14,7 +14,7 @@
         <scene sceneID="gWc-wL-b68">
             <objects>
                 <viewController storyboardIdentifier="HomeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="EBV-65-RMU" customClass="HomeViewController" customModule="TVShows" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="gq9-eK-lM4" customClass="HomVie">
+                    <view key="view" contentMode="scaleToFill" id="gq9-eK-lM4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>

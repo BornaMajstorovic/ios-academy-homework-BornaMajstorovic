@@ -11,6 +11,7 @@ import Alamofire
 
 class HomeViewController: UIViewController {
     
+
     // MARK: Outlets
     
     @IBOutlet weak var tableView: UITableView!
@@ -26,7 +27,7 @@ class HomeViewController: UIViewController {
             tableView.reloadData()
         }
     }
-    
+
     // MARK: Lifecycle methods
 
     override func viewDidLoad() {
