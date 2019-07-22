@@ -35,7 +35,7 @@ final class LoginViewController: UIViewController {
         
         setUpView()
         
-        self.navigationController?.isNavigationBarHidden = true;
+        
      // navigationController?.setViewControllers([HomeViewController], animated: true)
     }
     
@@ -83,6 +83,7 @@ final class LoginViewController: UIViewController {
             homeViewController.loginUser = userSaved
             homeViewController.token = token
             navigationController?.pushViewController(homeViewController, animated: true)
+            navigationController?.setViewControllers([homeViewController], animated: true)
         }
     }
     

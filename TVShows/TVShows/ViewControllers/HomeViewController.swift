@@ -22,11 +22,7 @@ class HomeViewController: UIViewController {
     var loginUser:User?
     var token:String?
     
-    private var shows:[Show]? {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    private var shows:[Show]?
 
     // MARK: Lifecycle methods
 
@@ -48,6 +44,7 @@ class HomeViewController: UIViewController {
                         switch response.result {
                         case .success(let arrayOfShows):
                             self.shows = arrayOfShows
+                            self.tableView.reloadData()
                         case .failure(let error):
                             self.showAlert(title: "Error", message: error.localizedDescription)
                         }
@@ -74,8 +71,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let deleteAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "Delete") { (action, indexPath) in
+        let deleteAction = UITableViewRowAction(style: UITableViewRowAction.Style.destructive, title: "Delete") { [weak self](action, indexPath) in
+            guard let self = self else {return}
             self.shows?.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.left)
         }
         return [deleteAction]
     }
