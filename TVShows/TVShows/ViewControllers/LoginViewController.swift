@@ -25,9 +25,7 @@ final class LoginViewController: UIViewController {
     
     // MARK: Properties
     
-    private var checkBoxCount = 0
     private var userSaved: User?
-    private var userRegistered: User?
     private var token: String?
     
     
@@ -36,9 +34,7 @@ final class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loginButtonOutlet.layer.cornerRadius = 8
-        checkBoxButton.setImage(UIImage(named: "ic-checkbox-empty"), for: .normal)
-        checkBoxButton.setImage(UIImage(named: "ic-checkbox-filled"), for: .selected)
+        setUpView()
         
         self.navigationController?.isNavigationBarHidden = true;
      // navigationController?.setViewControllers([HomeViewController], animated: true)
@@ -91,6 +87,12 @@ final class LoginViewController: UIViewController {
         }
     }
     
+    private func setUpView(){
+        loginButtonOutlet.layer.cornerRadius = 8
+        checkBoxButton.setImage(UIImage(named: "ic-checkbox-empty"), for: .normal)
+        checkBoxButton.setImage(UIImage(named: "ic-checkbox-filled"), for: .selected)
+    }
+    
 }
 
 
@@ -114,10 +116,11 @@ private extension LoginViewController {
                           parameters: parameters,
                           encoding: JSONEncoding.default)
                  .validate()
-                 .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { (response: DataResponse<User>) in
+                 .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { [weak self](response: DataResponse<User>) in
                     switch response.result {
                         case .success(let user):
                             SVProgressHUD.showSuccess(withStatus: "Success")
+                            guard let self = self else {return}
                             self.userSaved = user
                             self.loginUserWith(email: email, password: password)
                         case .failure(let error):
@@ -148,11 +151,13 @@ private extension LoginViewController {
                     switch response.result {
                     case .success(let loginData):
                         SVProgressHUD.showSuccess(withStatus: "Success")
-                        self?.token = loginData.token
-                        self?.navigateFromLogin()
+                        guard let self = self else {return}
+                        self.token = loginData.token
+                        self.navigateFromLogin()
                     case .failure(let error):
                         SVProgressHUD.showError(withStatus: "Failure")
-                        self?.showAlert(title: "Error", message: error.localizedDescription)
+                        guard let self = self else {return}
+                        self.showAlert(title: "Error", message: error.localizedDescription)
                         print(error.localizedDescription)
                     }
                 SVProgressHUD.dismiss()
