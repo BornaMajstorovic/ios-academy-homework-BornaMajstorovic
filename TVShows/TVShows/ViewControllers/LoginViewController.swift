@@ -10,7 +10,6 @@ import UIKit
 import Alamofire
 import CodableAlamofire
 import SVProgressHUD
-import PromiseKit
 
 final class LoginViewController: UIViewController {
     

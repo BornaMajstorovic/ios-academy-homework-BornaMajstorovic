@@ -27,7 +27,7 @@
 		0226DA0C22E5CF090085C7EB /* NewEpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEpisodeViewController.swift; sourceTree = "<group>"; };
 		023D5CD422E48BE90057B73B /* Show.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Show.swift; sourceTree = "<group>"; };
 		023D5CD622E4AB440057B73B /* ShowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTableViewCell.swift; sourceTree = "<group>"; };
-		0241CB9D22CFD88300F8E986 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Login.storyboard; path = TVShows/Login/Login.storyboard; sourceTree = SOURCE_ROOT; };
+		0241CB9D22CFD88300F8E986 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Login.storyboard; path = "TVShows/New Group/Login.storyboard"; sourceTree = SOURCE_ROOT; };
 		0241CB9F22CFD91900F8E986 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginViewController.swift; path = TVShows/ViewControllers/LoginViewController.swift; sourceTree = SOURCE_ROOT; };
 		026EF52C22DC6CBA006F0265 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		028F8AA8B1C7ABD4875A68C2 /* Pods_TVShows.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TVShows.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,7 +83,7 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		0241CB9C22CFD66600F8E986 /* Login */ = {
+		0282F42622E6223B0046F7D6 /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				0241CB9D22CFD88300F8E986 /* Login.storyboard */,
@@ -113,8 +113,8 @@
 		02DBE1F422CE53ED00BE29DA /* TVShows */ = {
 			isa = PBXGroup;
 			children = (
+				0282F42622E6223B0046F7D6 /* Login */,
 				023B3D7B22DDC429008164FA /* Resources */,
-				0241CB9C22CFD66600F8E986 /* Login */,
 				023D5CD322E48BDA0057B73B /* Model */,
 				0226DA0F22E5CF2F0085C7EB /* ViewControllers */,
 				023D5CD622E4AB440057B73B /* ShowTableViewCell.swift */,
@@ -400,7 +400,9 @@
 			baseConfigurationReference = FF329A1200FFA283ABC4E3FA /* Pods-TVShows.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/TVShows/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -408,6 +410,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Borna.TVShows;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -418,7 +421,9 @@
 			baseConfigurationReference = D82F584CDAC0E8EACF660C82 /* Pods-TVShows.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/TVShows/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -426,6 +431,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = Borna.TVShows;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

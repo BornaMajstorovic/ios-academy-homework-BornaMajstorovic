@@ -9,7 +9,4 @@ target 'TVShows' do
   pod "Alamofire"
   pod "SVProgressHUD"
   pod "CodableAlamofire"
-  pod "PromiseKit/CorePromise"
-  pod "PromiseKit/Alamofire"
-  
 end
