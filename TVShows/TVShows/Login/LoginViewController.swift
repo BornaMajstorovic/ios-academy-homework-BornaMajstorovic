@@ -110,7 +110,7 @@ private extension LoginViewController {
                           parameters: parameters,
                           encoding: JSONEncoding.default)
                  .validate()
-                 .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) {[weak self] (response: DataResponse<User>) in
+                 .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { [weak self] (response: DataResponse<User>) in
                     switch response.result {
                         case .success(let user):
                             SVProgressHUD.showSuccess(withStatus: "Success")
