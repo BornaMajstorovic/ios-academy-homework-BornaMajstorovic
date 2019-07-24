@@ -10,6 +10,18 @@ import UIKit
 import Alamofire
 
 class ShowDetailsViewController: UIViewController {
+
+    // MARK: Outlets
+    @IBOutlet private weak var image: UIImageView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var descriptionTextView: UITextView!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var newEpisodeButton: UIButton!
+    @IBOutlet private weak var episodesNumberLabel: UILabel!
+    
+    // MARK: Properties
+    var showID: String?
+    var token: String?
     
     private var episodes:[ShowEpisodes]? {
         didSet {
@@ -17,24 +29,6 @@ class ShowDetailsViewController: UIViewController {
         }
     }
 
-    // MARK: Outlets
-    @IBOutlet weak var image: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var descriptionTextView: UITextView!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var newEpisodeButton: UIButton!
-    @IBOutlet weak var episodesNumberLabel: UILabel!
-    
-    @IBAction func newEpisodeButtonSelected(_ sender: UIButton) {
-        
-        
-    }
-    
-    // MARK: Properties
-    var showID: String?
-    var token: String?
-
-    
     private var showDetails: ShowDetails? {
         didSet {
             titleLabel.text = showDetails?.title
@@ -47,15 +41,48 @@ class ShowDetailsViewController: UIViewController {
         super.viewDidLoad()
         
         fetchShowDetails()
-        tableView.dataSource = self
-        tableView.delegate = self
-        // Do any additional setup after loading the view.
+        setUpView()
+
     }
     
     // MARK: Actions
-    
+    @IBAction private func newEpisodeButtonSelected(_ sender: UIButton) {
+        let storyboard: UIStoryboard = UIStoryboard(name: "Login", bundle: nil)
+        if let newEpisodeViewController = storyboard.instantiateViewController(withIdentifier: "NewEpisodeViewController") as? NewEpisodeViewController {
+            present(newEpisodeViewController, animated: true, completion: nil)
+            newEpisodeViewController.token = token
+            newEpisodeViewController.showID = showID
+            newEpisodeViewController.delegate = self
+        }
+    }
     
     //MARK: Class methods
+    
+    private func setUpView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        newEpisodeButton.backgroundColor = #colorLiteral(red: 1, green: 0.4588235294, blue: 0.5490196078, alpha: 1)
+        newEpisodeButton.layer.cornerRadius = 0.5 * newEpisodeButton.bounds.size.width
+        newEpisodeButton.titleLabel?.textAlignment = NSTextAlignment.center
+        
+        self.navigationItem.setHidesBackButton(true, animated:false)
+       // self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        let backButton = UIButton(type: .custom)
+        backButton.setImage(UIImage(named: "ic-navigate-back"), for: .normal)
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        backButton.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
+        
+        let barButton = UIBarButtonItem(customView: backButton)
+        self.navigationItem.leftBarButtonItem = barButton
+        
+        
+    }
+    @objc func backButtonPressed(sender:UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+   
     
 }
 
@@ -113,6 +140,12 @@ extension ShowDetailsViewController: UITableViewDelegate, UITableViewDataSource 
         cell.textLabel?.text = episodes?[indexPath.row].title
         cell.accessoryType = .disclosureIndicator
         return cell
+    }
+}
+
+extension ShowDetailsViewController: resultSuccessDelagate {
+    func didAddEpisode() {
+        tableView.reloadData()
     }
 }
 
