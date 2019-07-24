@@ -36,22 +36,17 @@ class HomeViewController: UIViewController {
     
     // MARK: Class methods
     
-    private func fetchShows() {
-        if let token = token {
-            let headers = ["Authorization": token]
-            Alamofire.request("https://api.infinum.academy/api/shows", method: .get, encoding: JSONEncoding.default, headers:headers)
-                     .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { (response:DataResponse<[Show]>) in
-                        switch response.result {
-                        case .success(let arrayOfShows):
-                            self.shows = arrayOfShows
-                            self.tableView.reloadData()
-                        case .failure(let error):
-                            self.showAlert(title: "Error", message: error.localizedDescription)
-                        }
-                    }
-            }
+    private func navigateFromHome(showObject: Show){
+        let storyBoard = UIStoryboard(name: "Login", bundle: nil)
+        
+        if let showDetailsViewController = storyBoard.instantiateViewController(withIdentifier:              "ShowDetailsViewController") as? ShowDetailsViewController {
+            showDetailsViewController.showID = showObject.id
+            showDetailsViewController.token = token
+            navigationController?.pushViewController(showDetailsViewController, animated: true)
         }
     }
+}
+
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -64,7 +59,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
             if let showObject = shows?[indexPath.row] {
                 cell.configure(with: showObject)
             }
-            
+
             return cell
         }
         return UITableViewCell()
@@ -78,4 +73,33 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
         }
         return [deleteAction]
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath){
+            if let showObject = shows?[indexPath.row] {
+                    navigateFromHome(showObject: showObject)
+            }
+        }
+    }
+}
+
+// MARK: API calls
+
+private extension HomeViewController {
+    func fetchShows() {
+        if let token = token {
+            let headers = ["Authorization": token]
+            Alamofire.request("https://api.infinum.academy/api/shows", method: .get, encoding: JSONEncoding.default, headers:headers)
+                .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) {[weak self] (response:DataResponse<[Show]>) in
+                    switch response.result {
+                    case .success(let arrayOfShows):
+                        self?.shows = arrayOfShows
+                        self?.tableView.reloadData()
+                    case .failure(let error):
+                        self?.showAlert(title: "Error", message: error.localizedDescription)
+                    }
+            }
+        }
+    }
+    
 }
