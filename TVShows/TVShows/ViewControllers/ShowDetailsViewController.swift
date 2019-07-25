@@ -19,7 +19,7 @@ class ShowDetailsViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var newEpisodeButton: UIButton!
     @IBOutlet private weak var episodesNumberLabel: UILabel!
-    @IBOutlet weak var customBackButton: UIButton!
+    @IBOutlet private weak var customBackButton: UIButton!
     
     // MARK: Properties
     var showID: String?
@@ -60,7 +60,7 @@ class ShowDetailsViewController: UIViewController {
             present(navigationController, animated: true, completion: nil)
         }
     }
-    @IBAction func customBackButtonSelected(_ sender: UIButton) {
+    @IBAction private func customBackButtonSelected(_ sender: UIButton) {
          navigationController?.popViewController(animated: true)
     }
     

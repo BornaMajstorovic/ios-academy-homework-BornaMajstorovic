@@ -13,11 +13,11 @@ import Alamofire
 class NewEpisodeViewController: UIViewController {
     
     // MARK: Outlets
-    @IBOutlet weak var cameraButton: UIButton!
-    @IBOutlet weak var episodeTitle: UITextField!
-    @IBOutlet weak var seasonNumber: UITextField!
-    @IBOutlet weak var episodeNumber: UITextField!
-    @IBOutlet weak var episodeDescription: UITextField!
+    @IBOutlet private weak var cameraButton: UIButton!
+    @IBOutlet private weak var episodeTitle: UITextField!
+    @IBOutlet private weak var seasonNumber: UITextField!
+    @IBOutlet private weak var episodeNumber: UITextField!
+    @IBOutlet private weak var episodeDescription: UITextField!
     
     // MARK: Properties
     var showID: String?
@@ -38,17 +38,23 @@ class NewEpisodeViewController: UIViewController {
         
         navigationItem.title = "Add episode"
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
+         let cancelButton = UIBarButtonItem(
             title: "Cancel",
             style: .plain,
             target: self,
             action: #selector(didSelectCancel))
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
+        let addButton = UIBarButtonItem(
             title: "Add",
             style: .plain,
             target: self,
             action: #selector(didSelectAddShow))
+    
+        navigationItem.leftBarButtonItem = cancelButton
+        navigationItem.rightBarButtonItem = addButton
+        
+        cancelButton.tintColor = #colorLiteral(red: 1, green: 0.4588235294, blue: 0.5490196078, alpha: 1)
+        addButton.tintColor = #colorLiteral(red: 1, green: 0.4588235294, blue: 0.5490196078, alpha: 1)
     }
     
     
