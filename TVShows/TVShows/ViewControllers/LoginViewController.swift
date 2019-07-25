@@ -34,9 +34,6 @@ final class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         setUpView()
-        
-        
-     // navigationController?.setViewControllers([HomeViewController], animated: true)
     }
     
     

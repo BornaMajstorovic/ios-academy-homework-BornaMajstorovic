@@ -124,6 +124,17 @@
                                     <constraint firstAttribute="height" constant="200" id="cec-y5-p0h"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1bG-qC-Rx3">
+                                <rect key="frame" x="0.0" y="44" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="5KL-OC-1TO"/>
+                                    <constraint firstAttribute="height" constant="50" id="Yuw-rI-WgB"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <connections>
+                                    <action selector="customBackButtonSelected:" destination="RLv-PT-Ljb" eventType="touchUpInside" id="oSc-Jb-nH1"/>
+                                </connections>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 Episodes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ydr-kM-tNv">
                                 <rect key="frame" x="16" y="416.33333333333331" width="378" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
@@ -144,28 +155,28 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BFQ-3O-mpb">
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BFQ-3O-mpb">
                                 <rect key="frame" x="314" y="729" width="60" height="60"/>
-                                <color key="backgroundColor" red="1" green="0.1909307073" blue="0.190708672" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="OB9-KU-GJM"/>
                                     <constraint firstAttribute="height" constant="60" id="XgA-P5-jBW"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="+">
+                                <state key="normal" image="ic-fab-button">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
                                     <action selector="newEpisodeButtonSelected:" destination="RLv-PT-Ljb" eventType="touchUpInside" id="VTV-Vc-m8H"/>
-                                    <segue destination="xeq-tj-H0o" kind="showDetail" identifier="newEpisode" id="3cK-8h-oUr"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="1bG-qC-Rx3" firstAttribute="leading" secondItem="Ic2-hl-LsS" secondAttribute="leading" id="2iD-MK-ULr"/>
                             <constraint firstItem="gRq-cF-2Od" firstAttribute="leading" secondItem="Ic2-hl-LsS" secondAttribute="leading" constant="16" id="4bn-q8-jsb"/>
                             <constraint firstItem="Ic2-hl-LsS" firstAttribute="trailing" secondItem="wlZ-iK-BFg" secondAttribute="trailing" constant="16" id="C1s-Qx-MJu"/>
                             <constraint firstItem="Ydr-kM-tNv" firstAttribute="top" secondItem="wlZ-iK-BFg" secondAttribute="bottom" constant="8" id="SRS-P0-e2F"/>
+                            <constraint firstItem="1bG-qC-Rx3" firstAttribute="top" secondItem="Ic2-hl-LsS" secondAttribute="top" id="SxC-sj-TMh"/>
                             <constraint firstItem="wlZ-iK-BFg" firstAttribute="top" secondItem="gRq-cF-2Od" secondAttribute="bottom" constant="16" id="VDf-zZ-tQ9"/>
                             <constraint firstItem="Ic2-hl-LsS" firstAttribute="bottom" secondItem="BFQ-3O-mpb" secondAttribute="bottom" constant="24" id="XM5-C0-9wc"/>
                             <constraint firstItem="t9r-8l-KVa" firstAttribute="leading" secondItem="Ic2-hl-LsS" secondAttribute="leading" constant="16" id="YWb-D2-e8H"/>
@@ -174,6 +185,7 @@
                             <constraint firstItem="BFQ-3O-mpb" firstAttribute="trailing" secondItem="t9r-8l-KVa" secondAttribute="trailing" constant="-24" id="g4A-aZ-7go"/>
                             <constraint firstItem="Ic2-hl-LsS" firstAttribute="trailing" secondItem="Ydr-kM-tNv" secondAttribute="trailing" constant="20" id="gqd-CW-6jZ"/>
                             <constraint firstItem="t9r-8l-KVa" firstAttribute="top" secondItem="Ydr-kM-tNv" secondAttribute="bottom" constant="8" id="gtV-FJ-PLe"/>
+                            <constraint firstItem="1bG-qC-Rx3" firstAttribute="top" secondItem="Ic2-hl-LsS" secondAttribute="top" id="hIi-6G-vEz"/>
                             <constraint firstItem="Ydr-kM-tNv" firstAttribute="leading" secondItem="Ic2-hl-LsS" secondAttribute="leading" constant="16" id="lRP-Eg-uH2"/>
                             <constraint firstAttribute="bottom" secondItem="t9r-8l-KVa" secondAttribute="bottom" id="mj1-kb-Tjl"/>
                             <constraint firstItem="gRq-cF-2Od" firstAttribute="top" secondItem="LVq-8m-2JE" secondAttribute="bottom" constant="16" id="nMM-Ms-GNV"/>
@@ -187,6 +199,7 @@
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="customBackButton" destination="1bG-qC-Rx3" id="O6T-if-sQI"/>
                         <outlet property="descriptionTextView" destination="wlZ-iK-BFg" id="tEy-rG-E95"/>
                         <outlet property="episodesNumberLabel" destination="Ydr-kM-tNv" id="2F7-6r-iuE"/>
                         <outlet property="image" destination="LVq-8m-2JE" id="yrB-nC-TeL"/>
@@ -197,7 +210,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R0I-3C-buD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1081" y="-2310"/>
+            <point key="canvasLocation" x="-1090" y="-2462"/>
         </scene>
         <!--New Episode View Controller-->
         <scene sceneID="33W-yf-AoG">
@@ -348,11 +361,15 @@
                     </view>
                     <connections>
                         <outlet property="cameraButton" destination="l2E-jL-mbS" id="oYh-bL-dry"/>
+                        <outlet property="episodeDescription" destination="dIs-5W-whj" id="QRK-cQ-t2b"/>
+                        <outlet property="episodeNumber" destination="pGm-C3-LMJ" id="9SP-YX-hf0"/>
+                        <outlet property="episodeTitle" destination="8xf-Em-JKA" id="Xzp-u8-2Sw"/>
+                        <outlet property="seasonNumber" destination="e57-jf-c2I" id="tR8-db-7ZF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tVw-AV-vAr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-424.63768115942031" y="-2310.2678571428569"/>
+            <point key="canvasLocation" x="-209" y="-2310"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="2hU-4K-SjP">
@@ -573,6 +590,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ic-fab-button" width="68" height="74"/>
         <image name="login-logo" width="75" height="80"/>
         <image name="splash-logo" width="129" height="148"/>
     </resources>

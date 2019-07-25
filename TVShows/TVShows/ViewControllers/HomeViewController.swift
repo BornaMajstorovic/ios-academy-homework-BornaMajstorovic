@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import SVProgressHUD
 
 class HomeViewController: UIViewController {
     
@@ -75,7 +76,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath){
+        if tableView.cellForRow(at: indexPath) != nil {
             if let showObject = shows?[indexPath.row] {
                     navigateFromHome(showObject: showObject)
             }
@@ -87,17 +88,21 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
 
 private extension HomeViewController {
     func fetchShows() {
+        SVProgressHUD.show()
         if let token = token {
             let headers = ["Authorization": token]
             Alamofire.request("https://api.infinum.academy/api/shows", method: .get, encoding: JSONEncoding.default, headers:headers)
                 .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) {[weak self] (response:DataResponse<[Show]>) in
                     switch response.result {
                     case .success(let arrayOfShows):
+                        SVProgressHUD.showSuccess(withStatus: "Success")
                         self?.shows = arrayOfShows
                         self?.tableView.reloadData()
                     case .failure(let error):
+                        SVProgressHUD.showError(withStatus: "Failure")
                         self?.showAlert(title: "Error", message: error.localizedDescription)
                     }
+                     SVProgressHUD.dismiss()
             }
         }
     }

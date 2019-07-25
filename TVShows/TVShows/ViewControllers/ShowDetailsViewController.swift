@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import SVProgressHUD
 
 class ShowDetailsViewController: UIViewController {
 
@@ -18,6 +19,7 @@ class ShowDetailsViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var newEpisodeButton: UIButton!
     @IBOutlet private weak var episodesNumberLabel: UILabel!
+    @IBOutlet weak var customBackButton: UIButton!
     
     // MARK: Properties
     var showID: String?
@@ -49,11 +51,17 @@ class ShowDetailsViewController: UIViewController {
     @IBAction private func newEpisodeButtonSelected(_ sender: UIButton) {
         let storyboard: UIStoryboard = UIStoryboard(name: "Login", bundle: nil)
         if let newEpisodeViewController = storyboard.instantiateViewController(withIdentifier: "NewEpisodeViewController") as? NewEpisodeViewController {
-            present(newEpisodeViewController, animated: true, completion: nil)
+            let navigationController = UINavigationController(rootViewController: newEpisodeViewController)
+            
             newEpisodeViewController.token = token
             newEpisodeViewController.showID = showID
             newEpisodeViewController.delegate = self
+
+            present(navigationController, animated: true, completion: nil)
         }
+    }
+    @IBAction func customBackButtonSelected(_ sender: UIButton) {
+         navigationController?.popViewController(animated: true)
     }
     
     //MARK: Class methods
@@ -61,38 +69,18 @@ class ShowDetailsViewController: UIViewController {
     private func setUpView() {
         tableView.dataSource = self
         tableView.delegate = self
-        newEpisodeButton.backgroundColor = #colorLiteral(red: 1, green: 0.4588235294, blue: 0.5490196078, alpha: 1)
-        newEpisodeButton.layer.cornerRadius = 0.5 * newEpisodeButton.bounds.size.width
-        newEpisodeButton.titleLabel?.textAlignment = NSTextAlignment.center
-        
-        self.navigationItem.setHidesBackButton(true, animated:false)
-       // self.navigationController?.setNavigationBarHidden(true, animated: false)
-        
-        let backButton = UIButton(type: .custom)
-        backButton.setImage(UIImage(named: "ic-navigate-back"), for: .normal)
-        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
-        backButton.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
-        
-        let barButton = UIBarButtonItem(customView: backButton)
-        self.navigationItem.leftBarButtonItem = barButton
-        
-        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
-    @objc func backButtonPressed(sender:UIButton) {
-        navigationController?.popViewController(animated: true)
-    }
-    
-   
-    
+  
+
 }
 
 private extension ShowDetailsViewController {
      func fetchShowDetails() {
+        SVProgressHUD.show()
         if let token = token {
             let headers = ["Authorization": token]
             guard let showID = showID else {return}
-            
-            //"\(BASE_URL)\(NEKAKAV_ENDPOINT)\(showID)"
             
             Alamofire.request("https://api.infinum.academy/api/shows/" + "\(showID)", method: .get, encoding: JSONEncoding.default, headers: headers)
                 .validate()
@@ -100,16 +88,20 @@ private extension ShowDetailsViewController {
                     [weak self](response: DataResponse<ShowDetails>) in
                     switch response.result {
                     case .success(let showDetails):
+                        SVProgressHUD.showSuccess(withStatus: "Success")
                         self?.showDetails = showDetails
                         self?.fetchShowListOfEpisodes()
                     case .failure(let error):
+                        SVProgressHUD.showError(withStatus: "Failure")
                         error.localizedDescription
                     }
+                SVProgressHUD.dismiss()
             }
         }
     }
     
      func fetchShowListOfEpisodes() {
+        SVProgressHUD.show()
         if let token = token {
             let headers = ["Authorization": token]
             guard let showID = showID else {return}
@@ -120,11 +112,14 @@ private extension ShowDetailsViewController {
                     [weak self](response: DataResponse<[ShowEpisodes]>) in
                     switch response.result {
                     case .success(let episodes):
+                        SVProgressHUD.showSuccess(withStatus: "Success")
                         self?.episodes = episodes
                         self?.episodesNumberLabel.text = "Episodes \(episodes.count)"
                     case .failure(let error):
+                        SVProgressHUD.showError(withStatus: "Failure")
                         error.localizedDescription
                     }
+                 SVProgressHUD.dismiss()
             }
         }
     }
@@ -137,7 +132,27 @@ extension ShowDetailsViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "episodeCell", for: indexPath)
-        cell.textLabel?.text = episodes?[indexPath.row].title
+        
+        var seasonAndEp: String = "S"
+        seasonAndEp.append(episodes![indexPath.row].season)
+        seasonAndEp.append(" Ep")
+        seasonAndEp.append(episodes![indexPath.row].episodeNumber)
+        seasonAndEp.append(" ")
+        
+        let color = #colorLiteral(red: 1, green: 0.4588235294, blue: 0.5490196078, alpha: 1)
+        let attributes = [NSAttributedString.Key.foregroundColor: color]
+        let attributedSeasonAndEp = NSMutableAttributedString(string: seasonAndEp, attributes: attributes)
+        
+        let titleOfEpisode = episodes![indexPath.row].title
+        let attributes2 = [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.4352941176, green: 0.4431372549, blue: 0.4745098039, alpha: 1)]
+        let attributedTitle = NSMutableAttributedString(string: titleOfEpisode, attributes: attributes2)
+        
+        let textLabelString = NSMutableAttributedString()
+        textLabelString.append(attributedSeasonAndEp)
+        textLabelString.append(attributedTitle)
+        
+        
+        cell.textLabel?.attributedText = textLabelString
         cell.accessoryType = .disclosureIndicator
         return cell
     }

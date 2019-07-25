@@ -14,7 +14,11 @@ class NewEpisodeViewController: UIViewController {
     
     // MARK: Outlets
     @IBOutlet weak var cameraButton: UIButton!
-
+    @IBOutlet weak var episodeTitle: UITextField!
+    @IBOutlet weak var seasonNumber: UITextField!
+    @IBOutlet weak var episodeNumber: UITextField!
+    @IBOutlet weak var episodeDescription: UITextField!
+    
     // MARK: Properties
     var showID: String?
     var token: String?
@@ -29,15 +33,8 @@ class NewEpisodeViewController: UIViewController {
         
     }
     
-    // MARK: Actions
-    
     // MARK: Class methods
     private func setupNavigationBar() {
-    
-        if let newEpisodeViewController = storyboard?.instantiateViewController(withIdentifier: "NewEpisodeViewController") as? NewEpisodeViewController {
-            let navigationController = UINavigationController(rootViewController: newEpisodeViewController)
-            present(navigationController, animated: true)
-        }
         
         navigationItem.title = "Add episode"
         
@@ -45,7 +42,8 @@ class NewEpisodeViewController: UIViewController {
             title: "Cancel",
             style: .plain,
             target: self,
-            action: #selector(didSelectAddShow))
+            action: #selector(didSelectCancel))
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "Add",
             style: .plain,
@@ -53,35 +51,52 @@ class NewEpisodeViewController: UIViewController {
             action: #selector(didSelectAddShow))
     }
     
+    
+    
+    @objc func didSelectCancel() {
+        self.dismiss(animated: true, completion: nil)
+    }
+        
+    
     @objc func didSelectAddShow() {
         SVProgressHUD.show()
         
-        let parameters: [String: String] = [
-            "showId": "string",
-            "title": "string",
-            "description": "string",
-            "episodeNumber": "string",
-            "season": "string"
-        ]
+        if let token = token {
+            let headers = ["Authorization": token]
         
-        Alamofire.request("https://api.infinum.academy/api/episodes",
+            guard let title = episodeTitle.text, let description = episodeDescription.text, let episodeNumber =  episodeNumber.text, let seasonNumber = seasonNumber.text, let showID = showID else {
+                print("text fields are empty")
+                return
+            }
+        
+            let parameters: [String: String] = [
+                "showId": showID,
+                "title": title,
+                "description": description,
+                "episodeNumber": episodeNumber,
+                "season": seasonNumber
+            ]
+        
+            Alamofire.request("https://api.infinum.academy/api/episodes",
                           method: .post,
                           parameters: parameters,
-                          encoding: JSONEncoding.default)
-                 .validate()
-            .responseString {[weak self] (response:DataResponse<String>) in
-                switch response.result{
-                case .success(let dissmis):
-                    self?.navigationController?.popViewController(animated: true)
-                    self?.delegate?.didAddEpisode()
-                case .failure(let error):
-                   self?.showAlert(title: "Error", message: error.localizedDescription)
+                          encoding: JSONEncoding.default,
+                          headers: headers)
+                    .validate()
+                    .responseString {[weak self] (response:DataResponse<String>) in
+                        switch response.result{
+                        case .success:
+                            SVProgressHUD.showSuccess(withStatus: "Success")
+                            self?.dismiss(animated: true, completion: nil)
+                            self?.delegate?.didAddEpisode()
+                        case .failure(let error):
+                            SVProgressHUD.showError(withStatus: "Failure")
+                            self?.showAlert(title: "Error", message: error.localizedDescription)
+                        }
+                    }
+                SVProgressHUD.dismiss()
         }
     }
-        
-      
-}
-
 }
 
 protocol resultSuccessDelagate: class {
