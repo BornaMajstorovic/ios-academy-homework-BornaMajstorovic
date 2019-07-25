@@ -131,6 +131,7 @@
                                     <constraint firstAttribute="height" constant="50" id="Yuw-rI-WgB"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                <state key="normal" backgroundImage="ic-navigate-back"/>
                                 <connections>
                                     <action selector="customBackButtonSelected:" destination="RLv-PT-Ljb" eventType="touchUpInside" id="oSc-Jb-nH1"/>
                                 </connections>
@@ -156,13 +157,13 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BFQ-3O-mpb">
-                                <rect key="frame" x="314" y="729" width="60" height="60"/>
+                                <rect key="frame" x="328" y="743" width="60" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="OB9-KU-GJM"/>
                                     <constraint firstAttribute="height" constant="60" id="XgA-P5-jBW"/>
                                 </constraints>
-                                <state key="normal" image="ic-fab-button">
+                                <state key="normal" backgroundImage="ic-fab-button">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -178,11 +179,11 @@
                             <constraint firstItem="Ydr-kM-tNv" firstAttribute="top" secondItem="wlZ-iK-BFg" secondAttribute="bottom" constant="8" id="SRS-P0-e2F"/>
                             <constraint firstItem="1bG-qC-Rx3" firstAttribute="top" secondItem="Ic2-hl-LsS" secondAttribute="top" id="SxC-sj-TMh"/>
                             <constraint firstItem="wlZ-iK-BFg" firstAttribute="top" secondItem="gRq-cF-2Od" secondAttribute="bottom" constant="16" id="VDf-zZ-tQ9"/>
-                            <constraint firstItem="Ic2-hl-LsS" firstAttribute="bottom" secondItem="BFQ-3O-mpb" secondAttribute="bottom" constant="24" id="XM5-C0-9wc"/>
+                            <constraint firstItem="Ic2-hl-LsS" firstAttribute="bottom" secondItem="BFQ-3O-mpb" secondAttribute="bottom" constant="10" id="XM5-C0-9wc"/>
                             <constraint firstItem="t9r-8l-KVa" firstAttribute="leading" secondItem="Ic2-hl-LsS" secondAttribute="leading" constant="16" id="YWb-D2-e8H"/>
                             <constraint firstItem="LVq-8m-2JE" firstAttribute="trailing" secondItem="Ic2-hl-LsS" secondAttribute="trailing" id="dMQ-kb-9i4"/>
                             <constraint firstItem="Ic2-hl-LsS" firstAttribute="trailing" secondItem="t9r-8l-KVa" secondAttribute="trailing" constant="16" id="fIZ-xI-6hF"/>
-                            <constraint firstItem="BFQ-3O-mpb" firstAttribute="trailing" secondItem="t9r-8l-KVa" secondAttribute="trailing" constant="-24" id="g4A-aZ-7go"/>
+                            <constraint firstItem="BFQ-3O-mpb" firstAttribute="trailing" secondItem="t9r-8l-KVa" secondAttribute="trailing" constant="-10" id="g4A-aZ-7go"/>
                             <constraint firstItem="Ic2-hl-LsS" firstAttribute="trailing" secondItem="Ydr-kM-tNv" secondAttribute="trailing" constant="20" id="gqd-CW-6jZ"/>
                             <constraint firstItem="t9r-8l-KVa" firstAttribute="top" secondItem="Ydr-kM-tNv" secondAttribute="bottom" constant="8" id="gtV-FJ-PLe"/>
                             <constraint firstItem="1bG-qC-Rx3" firstAttribute="top" secondItem="Ic2-hl-LsS" secondAttribute="top" id="hIi-6G-vEz"/>
@@ -591,6 +592,7 @@
     </scenes>
     <resources>
         <image name="ic-fab-button" width="68" height="74"/>
+        <image name="ic-navigate-back" width="32" height="32"/>
         <image name="login-logo" width="75" height="80"/>
         <image name="splash-logo" width="129" height="148"/>
     </resources>
