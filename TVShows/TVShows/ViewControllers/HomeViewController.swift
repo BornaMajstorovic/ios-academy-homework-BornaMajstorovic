@@ -9,8 +9,9 @@
 import UIKit
 import Alamofire
 import SVProgressHUD
+import Kingfisher
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
     
 
     // MARK: Outlets
@@ -19,19 +20,19 @@ class HomeViewController: UIViewController {
     
     // MARK: Properties
     
-    private let TITLE = "Shows"
-    var loginUser:User?
-    var token:String?
+    var loginUser: User?
+    var token: String?
     
-    private var shows:[Show]?
+    private var shows: [Show]?
 
     // MARK: Lifecycle methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = TITLE
+        title = "Shows"
         fetchShows()
+        setUpNavigationBar()
        
     }
     
@@ -40,11 +41,29 @@ class HomeViewController: UIViewController {
     private func navigateFromHome(showObject: Show){
         let storyBoard = UIStoryboard(name: "Login", bundle: nil)
         
-        if let showDetailsViewController = storyBoard.instantiateViewController(withIdentifier:              "ShowDetailsViewController") as? ShowDetailsViewController {
+      if let showDetailsViewController = storyBoard.instantiateViewController(withIdentifier:"ShowDetailsViewController") as? ShowDetailsViewController  {
             showDetailsViewController.showID = showObject.id
             showDetailsViewController.token = token
-            navigationController?.pushViewController(showDetailsViewController, animated: true)
+            //navigationController?.pushViewController(showDetailsViewController, animated: true)
+            //ako se vc seta ne treba ga pushat on to sam odradi
+        
+        navigationController?.pushViewController(showDetailsViewController, animated: true)
         }
+    }
+    
+    func setUpNavigationBar() {
+        let logoutItem = UIBarButtonItem.init(image: UIImage(named: "ic-logout"),
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(logoutActionHandler))
+        navigationItem.leftBarButtonItem = logoutItem
+    
+    }
+    
+    //on logout deleate all stored credentials
+    
+    @objc private func logoutActionHandler() {
+        
     }
 }
 
@@ -59,6 +78,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
             
             if let showObject = shows?[indexPath.row] {
                 cell.configure(with: showObject)
+                
             }
 
             return cell
@@ -86,7 +106,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
 
 // MARK: API calls
 
-private extension HomeViewController {
+extension HomeViewController{
     func fetchShows() {
         SVProgressHUD.show()
         if let token = token {
@@ -106,5 +126,5 @@ private extension HomeViewController {
             }
         }
     }
-    
 }
+

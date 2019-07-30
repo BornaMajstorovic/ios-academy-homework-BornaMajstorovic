@@ -16,6 +16,7 @@ struct ShowDetails: Decodable {
     let id: String
     let likesCount: Int
     let imageUrl: String
+    let mediaId: String
     
     enum CodingKeys: String, CodingKey {
         case type
@@ -24,5 +25,6 @@ struct ShowDetails: Decodable {
         case id = "_id"
         case likesCount
         case imageUrl
+        case mediaId
     }
 }

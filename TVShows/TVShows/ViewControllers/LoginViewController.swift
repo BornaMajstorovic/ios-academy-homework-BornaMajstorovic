@@ -10,6 +10,7 @@ import UIKit
 import Alamofire
 import CodableAlamofire
 import SVProgressHUD
+import KeychainAccess
 
 final class LoginViewController: UIViewController {
     
@@ -26,6 +27,7 @@ final class LoginViewController: UIViewController {
     
     private var userSaved: User?
     private var token: String?
+    private var saveUserSelected:Bool = true
     
     
     // MARK: Lifecycle methods
@@ -47,7 +49,19 @@ final class LoginViewController: UIViewController {
                 return
         }
         loginUserWith(email: email, password: password)
-        
+        sender.highlightButton()
+    }
+    
+    func save(username:String, password:String) {
+        UserCredentials.shared.saveUser(userName: username, password: password) { saved in
+            if saved {
+                print("saved")
+                //TODO: Show save success
+            } else {
+                print("Not saved")
+                //TODO: Show error
+            }
+        }
     }
     
     @IBAction func createAccountButton(_ sender: UIButton) {
@@ -68,6 +82,8 @@ final class LoginViewController: UIViewController {
                 sender.transform = .identity
             }, completion: nil)
         }
+        
+        saveUserSelected.toggle()
     }
     
     // MARK: class methods
@@ -76,11 +92,16 @@ final class LoginViewController: UIViewController {
         
         let storyBoard = UIStoryboard(name: "Login", bundle: nil)
         
-        if let homeViewController = storyBoard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController {
-            homeViewController.loginUser = userSaved
-            homeViewController.token = token
-            navigationController?.pushViewController(homeViewController, animated: true)
-            navigationController?.setViewControllers([homeViewController], animated: true)
+        if let homeCollectionViewController = storyBoard.instantiateViewController(withIdentifier: "HomeCollectionViewController") as? HomeCollectionViewController {
+            homeCollectionViewController.loginUser = userSaved
+            homeCollectionViewController.token = token
+            //flip over vc
+//            UIView.beginAnimations("animation", context: nil)
+//            UIView.setAnimationDuration(1.0)
+            //setvc ide novi stack
+            navigationController?.setViewControllers([homeCollectionViewController], animated: false)
+//            UIView.setAnimationTransition(UIView.AnimationTransition.flipFromLeft, for: (self.navigationController?.view)!, cache: false)
+//            UIView.commitAnimations()
         }
     }
     
@@ -88,6 +109,10 @@ final class LoginViewController: UIViewController {
         loginButtonOutlet.layer.cornerRadius = 8
         checkBoxButton.setImage(UIImage(named: "ic-checkbox-empty"), for: .normal)
         checkBoxButton.setImage(UIImage(named: "ic-checkbox-filled"), for: .selected)
+    }
+    
+    private func checkCredentials() {
+        
     }
     
 }
@@ -149,8 +174,15 @@ private extension LoginViewController {
                     case .success(let loginData):
                         SVProgressHUD.showSuccess(withStatus: "Success")
                         guard let self = self else {return}
+                        UserCredentials.shared.userToken = loginData.token
+                        //TODO: Change token
                         self.token = loginData.token
                         self.navigateFromLogin()
+                        
+                        
+                        //TODO: check if user has stored credentials, get them and login automaticly
+                        guard self.saveUserSelected, let username = self.userSaved?.email, let password = self.passwordTextField.text else { return }
+                        self.save(username: username, password: password)
                     case .failure(let error):
                         SVProgressHUD.showError(withStatus: "Failure")
                         guard let self = self else {return}
@@ -169,5 +201,20 @@ extension UIViewController {
         alert.addAction(action)
         
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension UIButton {
+    
+     func highlightButton() {
+        let transform: CGAffineTransform = isHighlighted ? .init(scaleX: 0.95, y: 0.95) : .identity
+        UIView.animate(
+            withDuration: 0.4,
+            delay: 0,
+            usingSpringWithDamping: 0.5,
+            initialSpringVelocity: 3,
+            options: [.curveEaseInOut],
+            animations: {
+                self.transform = transform })
     }
 }

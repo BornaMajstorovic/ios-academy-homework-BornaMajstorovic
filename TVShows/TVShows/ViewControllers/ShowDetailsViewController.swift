@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SVProgressHUD
 
-class ShowDetailsViewController: UIViewController {
+final class ShowDetailsViewController: UIViewController {
 
     // MARK: Outlets
     @IBOutlet private weak var image: UIImageView!
@@ -35,6 +35,7 @@ class ShowDetailsViewController: UIViewController {
         didSet {
             titleLabel.text = showDetails?.title
             descriptionTextView.text = showDetails?.description
+           
         }
     }
     
@@ -158,7 +159,7 @@ extension ShowDetailsViewController: UITableViewDelegate, UITableViewDataSource 
     }
 }
 
-extension ShowDetailsViewController: resultSuccessDelagate {
+extension ShowDetailsViewController: ResultSuccessDelagate {
     func didAddEpisode() {
         tableView.reloadData()
     }

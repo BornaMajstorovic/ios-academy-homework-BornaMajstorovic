@@ -23,3 +23,8 @@ struct Show: Decodable {
     }
 }
 
+extension Show {
+    var fullImageUrl: URL? {
+        return URL(string: "https://api.infinum.academy/" + imageUrl)
+    }
+}

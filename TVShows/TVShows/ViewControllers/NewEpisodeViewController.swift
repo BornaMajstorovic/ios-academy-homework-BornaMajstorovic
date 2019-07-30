@@ -10,7 +10,7 @@ import UIKit
 import SVProgressHUD
 import Alamofire
 
-class NewEpisodeViewController: UIViewController {
+final class NewEpisodeViewController: UIViewController {
     
     // MARK: Outlets
     @IBOutlet private weak var cameraButton: UIButton!
@@ -22,7 +22,10 @@ class NewEpisodeViewController: UIViewController {
     // MARK: Properties
     var showID: String?
     var token: String?
-    weak var delegate: resultSuccessDelagate?
+    weak var delegate: ResultSuccessDelagate?
+    let imagePicker = UIImagePickerController()
+    var mediaId: String?
+  
 
     // MARK: Lifecycle methods
     override func viewDidLoad() {
@@ -30,8 +33,17 @@ class NewEpisodeViewController: UIViewController {
         cameraButton.setBackgroundImage(UIImage(named: "ic-camera"), for: .normal)
         
         setupNavigationBar()
+       imagePicker.delegate = self
         
     }
+    
+    // MARK: Actions
+    @IBAction func uploadPhoto(_ sender: UIButton) {
+        imagePicker.allowsEditing = false
+        imagePicker.sourceType = .photoLibrary
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
     
     // MARK: Class methods
     private func setupNavigationBar() {
@@ -67,10 +79,10 @@ class NewEpisodeViewController: UIViewController {
     @objc func didSelectAddShow() {
         SVProgressHUD.show()
         
-        if let token = token {
-            let headers = ["Authorization": token]
+        guard let token = token else {return}
+        let headers = ["Authorization": token]
         
-            guard let title = episodeTitle.text, let description = episodeDescription.text, let episodeNumber =  episodeNumber.text, let seasonNumber = seasonNumber.text, let showID = showID else {
+        guard let title = episodeTitle.text, let description = episodeDescription.text, let episodeNumber =  episodeNumber.text, let seasonNumber = seasonNumber.text, let showID = showID, let mediaId = mediaId else {
                 print("text fields are empty")
                 return
             }
@@ -80,7 +92,8 @@ class NewEpisodeViewController: UIViewController {
                 "title": title,
                 "description": description,
                 "episodeNumber": episodeNumber,
-                "season": seasonNumber
+                "season": seasonNumber,
+                "mediaId": mediaId
             ]
         
             Alamofire.request("https://api.infinum.academy/api/episodes",
@@ -101,10 +114,61 @@ class NewEpisodeViewController: UIViewController {
                         }
                     }
                 SVProgressHUD.dismiss()
+    }
+    
+}
+
+protocol ResultSuccessDelagate: class {
+    func didAddEpisode()
+}
+
+extension NewEpisodeViewController {
+
+    func uploadImageOnAPI(token: String) {
+        let headers = ["Authorization": token]
+        let someUIImage = UIImage(named: "splash-logo")!
+        let imageByteData = someUIImage.pngData()!
+
+        Alamofire
+            .upload(multipartFormData: { multipartFormData in multipartFormData.append(imageByteData,
+                                                                                       withName: "file",
+                                                                                       fileName: "image.png",
+                                                                                       mimeType: "image/png")},
+                                        to: "https://api.infinum.academy/api/media",
+                                        method: .post,
+                                        headers: headers) { [weak self] result in
+                                            switch result {
+                                            case .success(let uploadRequest, _, _):
+                                                self?.processUploadRequest(uploadRequest)
+                                            case .failure(let encodingError):
+                                                print(encodingError)
+                                            }
+            }
+    }
+
+    func processUploadRequest(_ uploadRequest: UploadRequest) {
+        uploadRequest
+            .responseDecodableObject(keyPath: "data") { (response: DataResponse<Media>) in
+                switch response.result {
+                case .success(let media):
+                    self.mediaId = media.mediaId
+                    print("DECODED: \(media)")
+                    print("Proceed to add episode call...")
+                case .failure(let error):
+                    print("FAILURE: \(error)")
+                }
         }
     }
 }
 
-protocol resultSuccessDelagate: class {
-    func didAddEpisode()
+extension NewEpisodeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            picker.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
 }

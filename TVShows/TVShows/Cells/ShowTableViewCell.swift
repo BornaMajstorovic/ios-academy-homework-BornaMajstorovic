@@ -20,5 +20,7 @@ class ShowTableViewCell: UITableViewCell {
     func configure(with showObject:Show) {
         titleLabel.text = showObject.title
         likeCountLabel.text = "\(showObject.likesCount)"
+        showImage.kf.setImage(with: showObject.fullImageUrl)
+        
     }
 }
