@@ -81,7 +81,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
                 
             }
 
-            return cell
+            return UITableViewCell()
         }
         return UITableViewCell()
     }

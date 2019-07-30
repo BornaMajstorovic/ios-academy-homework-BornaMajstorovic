@@ -25,8 +25,13 @@ final class HomeCollectionViewController: UIViewController {
     var token:String?
     var keychain: Keychain?
     private let itemsPerRow: CGFloat = 2
+    private var showGridLayout:Bool = false
     
-    private var shows:[Show]?
+    private var shows:[Show]? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     // MARK: Lifecycle methods
     override func viewDidLoad() {
@@ -81,7 +86,8 @@ final class HomeCollectionViewController: UIViewController {
     }
     
     @objc private func toggleActionHandler() {
-        
+        showGridLayout.toggle()
+        collectionView.reloadData()
     }
     
     
@@ -94,23 +100,37 @@ extension HomeCollectionViewController: UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShowCollectionViewCell.IDENTIFIER, for: indexPath) as? ShowCollectionViewCell {
-            
-            if let showObject = shows?[indexPath.row] {
-                cell.configure(with: showObject)
+        
+        if showGridLayout {
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShowCollectionViewCell.IDENTIFIER, for: indexPath) as? ShowCollectionViewCell {
+                
+                if let showObject = shows?[indexPath.row] {
+                    cell.configure(with: showObject)
+                }
+                return cell
             }
-            return cell
+        } else {
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShowTableViewCell.IDENTIFIER, for: indexPath) as? ShowTableViewCell {
+                
+                if let showObject = shows?[indexPath.row] {
+                    cell.configure(with: showObject)
+                }
+                return cell
+            }
         }
+        
         return UICollectionViewCell()
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let paddingSpace = sectionInsets.left * (itemsPerRow + 1)
-//        let availableWidth = view.frame.width - paddingSpace
-//        let widthPerItem = availableWidth / itemsPerRow
-//        
-//        return CGSize(width: widthPerItem, height: widthPerItem)
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = view.frame.width
+        let height:CGFloat = 120.0
+        if showGridLayout {
+            return CGSize(width: width / 2.1, height: height)
+        } else {
+            return CGSize(width: width, height: height)
+        }
+    }
     
     
     func loginUserWith(email: String, password: String) {

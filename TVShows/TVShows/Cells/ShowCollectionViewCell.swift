@@ -12,12 +12,8 @@ class ShowCollectionViewCell: UICollectionViewCell {
     static let IDENTIFIER = "ShowCollectionViewCell"
     
     @IBOutlet weak var showImage: UIImageView!
-    @IBOutlet weak var titleLabel: UILabel!
    
-
-    
     func configure(with showObject:Show) {
-        titleLabel.text = showObject.title
         showImage.kf.setImage(with: showObject.fullImageUrl)
     }
 }
