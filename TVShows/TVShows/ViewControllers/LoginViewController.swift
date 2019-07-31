@@ -29,6 +29,9 @@ final class LoginViewController: UIViewController {
     private var token: String?
     private var saveUserSelected:Bool = true
     
+    private var savedUserName: String?
+    private var savedPassword: String?
+    
     
     // MARK: Lifecycle methods
     
@@ -93,15 +96,15 @@ final class LoginViewController: UIViewController {
         let storyBoard = UIStoryboard(name: "Login", bundle: nil)
         
         if let homeCollectionViewController = storyBoard.instantiateViewController(withIdentifier: "HomeCollectionViewController") as? HomeCollectionViewController {
-            homeCollectionViewController.loginUser = userSaved
             homeCollectionViewController.token = token
             //flip over vc
-//            UIView.beginAnimations("animation", context: nil)
-//            UIView.setAnimationDuration(1.0)
+           UIView.beginAnimations("animation", context: nil)
+            UIView.setAnimationDuration(1.0)
             //setvc ide novi stack
-            navigationController?.setViewControllers([homeCollectionViewController], animated: false)
-//            UIView.setAnimationTransition(UIView.AnimationTransition.flipFromLeft, for: (self.navigationController?.view)!, cache: false)
-//            UIView.commitAnimations()
+            let navigationController = self.navigationController
+            navigationController?.setViewControllers([self, homeCollectionViewController], animated: false)
+         UIView.setAnimationTransition(UIView.AnimationTransition.flipFromLeft, for: (self.navigationController?.view)!, cache: false)
+            UIView.commitAnimations()
         }
     }
     
@@ -110,11 +113,6 @@ final class LoginViewController: UIViewController {
         checkBoxButton.setImage(UIImage(named: "ic-checkbox-empty"), for: .normal)
         checkBoxButton.setImage(UIImage(named: "ic-checkbox-filled"), for: .selected)
     }
-    
-    private func checkCredentials() {
-        
-    }
-    
 }
 
 
@@ -169,23 +167,23 @@ private extension LoginViewController {
                            parameters: parameters,
                            encoding: JSONEncoding.default)
                 .validate()
-                .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { [weak self] (response: DataResponse<LoginData>) in
+                .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { (response: DataResponse<LoginData>) in
                     switch response.result {
                     case .success(let loginData):
+                        if self.saveUserSelected {
+                            self.save(username: email, password: password)
+                        }
                         SVProgressHUD.showSuccess(withStatus: "Success")
-                        guard let self = self else {return}
+//                        guard let self = self else {return}
                         UserCredentials.shared.userToken = loginData.token
                         //TODO: Change token
                         self.token = loginData.token
+                        // check if user has stored credentials, get them and login automaticly
                         self.navigateFromLogin()
-                        
-                        
-                        //TODO: check if user has stored credentials, get them and login automaticly
-                        guard self.saveUserSelected, let username = self.userSaved?.email, let password = self.passwordTextField.text else { return }
-                        self.save(username: username, password: password)
+            
                     case .failure(let error):
                         SVProgressHUD.showError(withStatus: "Failure")
-                        guard let self = self else {return}
+//                        guard let self = self else {return}
                         self.showAlert(title: "Error", message: error.localizedDescription)
                         print(error.localizedDescription)
                     }

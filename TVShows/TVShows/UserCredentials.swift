@@ -19,7 +19,6 @@ class UserCredentials {
     private init(){}
     static let shared = UserCredentials()
     
-    
     func saveUser(userName:String, password:String, completion:(Bool)->()) {
         keychain[EMAIL_KEY] = userName
         keychain[PASSWORD_KEY] = password

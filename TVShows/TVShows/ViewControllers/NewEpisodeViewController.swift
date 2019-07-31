@@ -82,19 +82,28 @@ final class NewEpisodeViewController: UIViewController {
         guard let token = token else {return}
         let headers = ["Authorization": token]
         
-        guard let title = episodeTitle.text, let description = episodeDescription.text, let episodeNumber =  episodeNumber.text, let seasonNumber = seasonNumber.text, let showID = showID, let mediaId = mediaId else {
+        guard
+            let title = episodeTitle.text,
+            let description = episodeDescription.text,
+            let episodeNumber =  episodeNumber.text,
+            let seasonNumber = seasonNumber.text,
+            let showID = showID
+        else {
                 print("text fields are empty")
                 return
             }
         
-            let parameters: [String: String] = [
+            var parameters: [String: String] = [
                 "showId": showID,
                 "title": title,
                 "description": description,
                 "episodeNumber": episodeNumber,
-                "season": seasonNumber,
-                "mediaId": mediaId
+                "season": seasonNumber
             ]
+        
+            if let mediaId = self.mediaId {
+                parameters["mediaId"] = mediaId
+            }
         
             Alamofire.request("https://api.infinum.academy/api/episodes",
                           method: .post,
@@ -124,10 +133,9 @@ protocol ResultSuccessDelagate: class {
 
 extension NewEpisodeViewController {
 
-    func uploadImageOnAPI(token: String) {
+    func uploadImageOnAPI(token: String, image: UIImage) {
         let headers = ["Authorization": token]
-        let someUIImage = UIImage(named: "splash-logo")!
-        let imageByteData = someUIImage.pngData()!
+        let imageByteData = image.pngData()!
 
         Alamofire
             .upload(multipartFormData: { multipartFormData in multipartFormData.append(imageByteData,
@@ -164,7 +172,10 @@ extension NewEpisodeViewController {
 extension NewEpisodeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
-            picker.dismiss(animated: true, completion: nil)
+            picker.dismiss(animated: true) { [weak self] in
+                // Careful about force unwrap
+                self?.uploadImageOnAPI(token: UserCredentials.shared.userToken!, image: image)
+            }
         }
     }
     

@@ -20,12 +20,11 @@ final class HomeCollectionViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     
     // MARK: Properties
-    var userFromKeychain:(username:String, password:String)?
-    var loginUser:User?
-    var token:String?
+    var userFromKeychain: (username:String, password:String)?
+    var loginUser: User?
+    var token: String?
     var keychain: Keychain?
-    private let itemsPerRow: CGFloat = 2
-    private var showGridLayout:Bool = false
+    private var showGridLayout: Bool = false
     
     private var shows:[Show]? {
         didSet {
@@ -33,12 +32,22 @@ final class HomeCollectionViewController: UIViewController {
         }
     }
     
+    private let gridImage = UIImage(named: "ic-gridview")
+    private let listImage = UIImage(named: "ic-listview")
+    
     // MARK: Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title =  "Shows"
-        fetchShows()
+        // handle clase when user isnt saved and token isnt set
+        if token != nil {
+            fetchShows()
+        } else {
+            // dont use force casting user if user is nil thats your case above
+            let user = userFromKeychain!
+            loginUserWith(email: user.username, password: user.password)
+        }
         setUpNavigationBar()
     }
     
@@ -48,14 +57,17 @@ final class HomeCollectionViewController: UIViewController {
         if let user = userFromKeychain {
             loginUserWith(email: user.username, password: user.password)
         }
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+
     }
     
     // MARK: Class methods
     private func navigateFromHome(showObject: Show){
         let storyBoard = UIStoryboard(name: "Login", bundle: nil)
         
-        if let showDetailsViewController = storyBoard.instantiateViewController(withIdentifier:              "ShowDetailsViewController") as? ShowDetailsViewController {
+        if let showDetailsViewController = storyBoard.instantiateViewController(withIdentifier: "ShowDetailsViewController") as? ShowDetailsViewController {
             showDetailsViewController.showID = showObject.id
+            showDetailsViewController.showObject = showObject
             showDetailsViewController.token = token
             navigationController?.pushViewController(showDetailsViewController, animated: true)
         }
@@ -65,7 +77,7 @@ final class HomeCollectionViewController: UIViewController {
         let logoutItem = UIBarButtonItem.init(image: UIImage(named: "ic-logout"), style: .plain, target: self, action: #selector(logoutActionHandler))
         navigationItem.leftBarButtonItem = logoutItem
         
-        let gridView = UIBarButtonItem(image: UIImage(named: "ic-gridview"), style: .plain, target: self, action: #selector(toggleActionHandler))
+        let gridView = UIBarButtonItem(image: gridImage, style: .plain, target: self, action: #selector(toggleActionHandler))
         navigationItem.rightBarButtonItem = gridView
         
     }
@@ -86,8 +98,12 @@ final class HomeCollectionViewController: UIViewController {
     }
     
     @objc private func toggleActionHandler() {
+        //toogle
+        navigationItem.rightBarButtonItem?.image = UIImage(named: "ic-listview")
         showGridLayout.toggle()
         collectionView.reloadData()
+        navigationItem.rightBarButtonItem?.image = showGridLayout ? gridImage : listImage
+        
     }
     
     
@@ -132,36 +148,13 @@ extension HomeCollectionViewController: UICollectionViewDelegate, UICollectionVi
         }
     }
     
-    
-    func loginUserWith(email: String, password: String) {
-        SVProgressHUD.show()
-        
-        let parameters: [String: String] = [
-            "email": email,
-            "password": password
-        ]
-        
-        Alamofire.request("https://api.infinum.academy/api/users/sessions",
-                          method: .post,
-                          parameters: parameters,
-                          encoding: JSONEncoding.default)
-            .validate()
-            .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { [weak self] (response: DataResponse<LoginData>) in
-                switch response.result {
-                case .success(let loginData):
-                    SVProgressHUD.showSuccess(withStatus: "Success")
-                    guard let self = self else {return}
-                    UserCredentials.shared.userToken = loginData.token
-                    self.token = loginData.token
-                case .failure(let error):
-                    SVProgressHUD.showError(withStatus: "Failure")
-                    guard let self = self else {return}
-                    print(error.localizedDescription)
-                }
-                SVProgressHUD.dismiss()
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView.cellForItem(at: indexPath) != nil {
+            if let showObject = shows?[indexPath.row] {
+                navigateFromHome(showObject: showObject)
+            }
         }
     }
-    
 }
 
 extension HomeCollectionViewController{
@@ -186,5 +179,37 @@ extension HomeCollectionViewController{
             
         }
     }
-}
+    
+    //Potrebno za login ako imamo stored credientials
+    
+    func loginUserWith(email: String, password: String) {
+        SVProgressHUD.show()
+        
+        let parameters: [String: String] = [
+            "email": email,
+            "password": password
+        ]
+        
+        Alamofire.request("https://api.infinum.academy/api/users/sessions",
+                          method: .post,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default)
+            .validate()
+            .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { [weak self] (response: DataResponse<LoginData>) in
+                switch response.result {
+                case .success(let loginData):
+                    SVProgressHUD.showSuccess(withStatus: "Success")
+                    guard let self = self else {return}
+                    UserCredentials.shared.userToken = loginData.token
+                    self.token = loginData.token
+                    self.fetchShows()
+                case .failure(let error):
+                    SVProgressHUD.showError(withStatus: "Failure")
+                    guard let self = self else {return}
+                    print(error.localizedDescription)
+                }
+                SVProgressHUD.dismiss()
+        }
+    }
+    }
 

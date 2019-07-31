@@ -20,7 +20,6 @@ final class HomeViewController: UIViewController {
     
     // MARK: Properties
     
-    var loginUser: User?
     var token: String?
     
     private var shows: [Show]?
@@ -44,8 +43,6 @@ final class HomeViewController: UIViewController {
       if let showDetailsViewController = storyBoard.instantiateViewController(withIdentifier:"ShowDetailsViewController") as? ShowDetailsViewController  {
             showDetailsViewController.showID = showObject.id
             showDetailsViewController.token = token
-            //navigationController?.pushViewController(showDetailsViewController, animated: true)
-            //ako se vc seta ne treba ga pushat on to sam odradi
         
         navigationController?.pushViewController(showDetailsViewController, animated: true)
         }

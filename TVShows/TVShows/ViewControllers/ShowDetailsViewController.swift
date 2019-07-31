@@ -24,6 +24,7 @@ final class ShowDetailsViewController: UIViewController {
     // MARK: Properties
     var showID: String?
     var token: String?
+    var showObject: Show?
     
     private var episodes:[ShowEpisodes]? {
         didSet {
@@ -45,6 +46,12 @@ final class ShowDetailsViewController: UIViewController {
         
         fetchShowDetails()
         setUpView()
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
 
     }
     
@@ -70,7 +77,9 @@ final class ShowDetailsViewController: UIViewController {
     private func setUpView() {
         tableView.dataSource = self
         tableView.delegate = self
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        if let showObject = showObject {
+            image.kf.setImage(with: showObject.fullImageUrl)
+        }
     }
   
 
@@ -116,6 +125,7 @@ private extension ShowDetailsViewController {
                         SVProgressHUD.showSuccess(withStatus: "Success")
                         self?.episodes = episodes
                         self?.episodesNumberLabel.text = "Episodes \(episodes.count)"
+                        self?.tableView.reloadData()
                     case .failure(let error):
                         SVProgressHUD.showError(withStatus: "Failure")
                         error.localizedDescription
@@ -162,6 +172,7 @@ extension ShowDetailsViewController: UITableViewDelegate, UITableViewDataSource 
 extension ShowDetailsViewController: ResultSuccessDelagate {
     func didAddEpisode() {
         tableView.reloadData()
+        fetchShowListOfEpisodes()
     }
 }
 

@@ -16,7 +16,7 @@ struct ShowDetails: Decodable {
     let id: String
     let likesCount: Int
     let imageUrl: String
-    let mediaId: String
+    let mediaId: String?
     
     enum CodingKeys: String, CodingKey {
         case type
