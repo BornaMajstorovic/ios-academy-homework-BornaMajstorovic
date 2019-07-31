@@ -81,6 +81,18 @@ final class ShowDetailsViewController: UIViewController {
             image.kf.setImage(with: showObject.fullImageUrl)
         }
     }
+    
+    private func navigateFromShowDetails(showEpisodeobject: ShowEpisodes){
+        let storyBoard = UIStoryboard(name: "Login", bundle: nil)
+        
+        if let episodeDetailsViewController = storyBoard.instantiateViewController(withIdentifier:"EpisodeDetailsViewController") as? EpisodeDetailsViewController  {
+            episodeDetailsViewController.episodeObject = showEpisodeobject
+            episodeDetailsViewController.token = token
+            episodeDetailsViewController.showObject = showObject
+            
+            navigationController?.pushViewController(episodeDetailsViewController, animated: true)
+        }
+    }
   
 
 }
@@ -153,6 +165,7 @@ extension ShowDetailsViewController: UITableViewDelegate, UITableViewDataSource 
         let color = #colorLiteral(red: 1, green: 0.4588235294, blue: 0.5490196078, alpha: 1)
         let attributes = [NSAttributedString.Key.foregroundColor: color]
         let attributedSeasonAndEp = NSMutableAttributedString(string: seasonAndEp, attributes: attributes)
+    
         
         let titleOfEpisode = episodes![indexPath.row].title
         let attributes2 = [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.4352941176, green: 0.4431372549, blue: 0.4745098039, alpha: 1)]
@@ -166,6 +179,14 @@ extension ShowDetailsViewController: UITableViewDelegate, UITableViewDataSource 
         cell.textLabel?.attributedText = textLabelString
         cell.accessoryType = .disclosureIndicator
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView.cellForRow(at: indexPath) != nil {
+            if let episodeObject = episodes?[indexPath.row] {
+                navigateFromShowDetails(showEpisodeobject: episodeObject)
+            }
+        }
     }
 }
 
