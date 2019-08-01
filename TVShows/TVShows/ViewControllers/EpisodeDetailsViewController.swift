@@ -18,7 +18,7 @@ final class EpisodeDetailsViewController: UIViewController {
     @IBOutlet private weak var commentsButton: UIButton!
     
     // MARK: Properties
-    var token: String?
+    var token: String? = UserCredentials.shared.userToken
     var episodeObject: ShowEpisodes?
     var showObject: Show?
     
@@ -27,6 +27,8 @@ final class EpisodeDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
+        attributedSeasonAndEpisode()
         
     }
     
@@ -35,15 +37,45 @@ final class EpisodeDetailsViewController: UIViewController {
             imageView.kf.setImage(with: showObject.fullImageUrl)
         }
         titleLabel.text = episodeObject?.title
-       // seasonLabel.text = episodeObject?.season + episodeObject?.episodeNumber
         episodeDescription.text = episodeObject?.description
         
     }
     
     // MARK: Actions
     @IBAction func navigateToComments(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Login", bundle: nil)
+        if let commentsViewController = storyboard.instantiateViewController(withIdentifier: "CommentsViewController") as? CommentsViewController {
+            navigationController?.pushViewController(commentsViewController, animated: true)
+        }
+        
     }
     
+    @IBAction func customBackButton(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
     // MARK: Class methods
+    
+    private func setImage() {
+        imageView.kf.setImage(with: episodeObject?.fullImageUrl)
+    }
+    
+    private func attributedSeasonAndEpisode() {
+        guard
+            let season = episodeObject?.season,
+            let episode = episodeObject?.episodeNumber
+            else {return}
+            
+        var seasonAndEp: String = "S"
+        seasonAndEp.append(season)
+        seasonAndEp.append(" Ep")
+        seasonAndEp.append(episode)
+        seasonAndEp.append(" ")
+        
+        let color = #colorLiteral(red: 1, green: 0.4588235294, blue: 0.5490196078, alpha: 1)
+        let attributes = [NSAttributedString.Key.foregroundColor: color]
+        let attributedSeasonAndEp = NSMutableAttributedString(string: seasonAndEp, attributes: attributes)
+        
+        seasonLabel.attributedText = attributedSeasonAndEp
+    }
     
 }

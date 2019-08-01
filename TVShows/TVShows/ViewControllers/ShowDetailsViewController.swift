@@ -22,8 +22,8 @@ final class ShowDetailsViewController: UIViewController {
     @IBOutlet private weak var customBackButton: UIButton!
     
     // MARK: Properties
-    var showID: String?
-    var token: String?
+    var showID: String? = UserCredentials.shared.showId
+    var token: String? = UserCredentials.shared.userToken
     var showObject: Show?
     
     private var episodes:[ShowEpisodes]? {
@@ -60,11 +60,7 @@ final class ShowDetailsViewController: UIViewController {
         let storyboard: UIStoryboard = UIStoryboard(name: "Login", bundle: nil)
         if let newEpisodeViewController = storyboard.instantiateViewController(withIdentifier: "NewEpisodeViewController") as? NewEpisodeViewController {
             let navigationController = UINavigationController(rootViewController: newEpisodeViewController)
-            
-            newEpisodeViewController.token = token
-            newEpisodeViewController.showID = showID
             newEpisodeViewController.delegate = self
-
             present(navigationController, animated: true, completion: nil)
         }
     }
@@ -87,7 +83,6 @@ final class ShowDetailsViewController: UIViewController {
         
         if let episodeDetailsViewController = storyBoard.instantiateViewController(withIdentifier:"EpisodeDetailsViewController") as? EpisodeDetailsViewController  {
             episodeDetailsViewController.episodeObject = showEpisodeobject
-            episodeDetailsViewController.token = token
             episodeDetailsViewController.showObject = showObject
             
             navigationController?.pushViewController(episodeDetailsViewController, animated: true)
@@ -156,6 +151,7 @@ extension ShowDetailsViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "episodeCell", for: indexPath)
         
+        //nemogu stavit u showEpisodes zbog koristenja UIColor-a
         var seasonAndEp: String = "S"
         seasonAndEp.append(episodes![indexPath.row].season)
         seasonAndEp.append(" Ep")
@@ -165,7 +161,7 @@ extension ShowDetailsViewController: UITableViewDelegate, UITableViewDataSource 
         let color = #colorLiteral(red: 1, green: 0.4588235294, blue: 0.5490196078, alpha: 1)
         let attributes = [NSAttributedString.Key.foregroundColor: color]
         let attributedSeasonAndEp = NSMutableAttributedString(string: seasonAndEp, attributes: attributes)
-    
+        
         
         let titleOfEpisode = episodes![indexPath.row].title
         let attributes2 = [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.4352941176, green: 0.4431372549, blue: 0.4745098039, alpha: 1)]

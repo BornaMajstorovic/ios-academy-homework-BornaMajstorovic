@@ -15,6 +15,7 @@ class UserCredentials {
     private let EMAIL_KEY = "email"
     private let PASSWORD_KEY = "password"
     var userToken:String?
+    var showId: String?
     
     private init(){}
     static let shared = UserCredentials()

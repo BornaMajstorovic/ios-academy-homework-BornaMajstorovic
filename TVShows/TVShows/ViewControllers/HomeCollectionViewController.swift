@@ -22,7 +22,7 @@ final class HomeCollectionViewController: UIViewController {
     // MARK: Properties
     var userFromKeychain: (username:String, password:String)?
     var loginUser: User?
-    var token: String?
+    var token: String? = UserCredentials.shared.userToken
     var keychain: Keychain?
     private var showGridLayout: Bool = false
     
@@ -40,13 +40,13 @@ final class HomeCollectionViewController: UIViewController {
         super.viewDidLoad()
         
         self.title =  "Shows"
-        // handle clase when user isnt saved and token isnt set
         if token != nil {
             fetchShows()
         } else {
-            // dont use force casting user if user is nil thats your case above
-            let user = userFromKeychain!
-            loginUserWith(email: user.username, password: user.password)
+
+            guard let user = userFromKeychain else {return}
+                loginUserWith(email: user.username, password: user.password)
+            
         }
         setUpNavigationBar()
     }
@@ -66,9 +66,7 @@ final class HomeCollectionViewController: UIViewController {
         let storyBoard = UIStoryboard(name: "Login", bundle: nil)
         
         if let showDetailsViewController = storyBoard.instantiateViewController(withIdentifier: "ShowDetailsViewController") as? ShowDetailsViewController {
-            showDetailsViewController.showID = showObject.id
             showDetailsViewController.showObject = showObject
-            showDetailsViewController.token = token
             navigationController?.pushViewController(showDetailsViewController, animated: true)
         }
     }
@@ -121,6 +119,7 @@ extension HomeCollectionViewController: UICollectionViewDelegate, UICollectionVi
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShowCollectionViewCell.IDENTIFIER, for: indexPath) as? ShowCollectionViewCell {
                 
                 if let showObject = shows?[indexPath.row] {
+                    UserCredentials.shared.showId = showObject.id
                     cell.configure(with: showObject)
                 }
                 return cell

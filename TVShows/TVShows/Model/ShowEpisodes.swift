@@ -27,3 +27,8 @@ struct ShowEpisodes: Decodable {
         case season
     }
 }
+extension ShowEpisodes {
+    var fullImageUrl: URL? {
+        return URL(string: "https://api.infinum.academy" + imageUrl)
+    }
+}

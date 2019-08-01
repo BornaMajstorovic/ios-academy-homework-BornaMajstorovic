@@ -96,7 +96,7 @@ final class LoginViewController: UIViewController {
         let storyBoard = UIStoryboard(name: "Login", bundle: nil)
         
         if let homeCollectionViewController = storyBoard.instantiateViewController(withIdentifier: "HomeCollectionViewController") as? HomeCollectionViewController {
-            homeCollectionViewController.token = token
+         //   homeCollectionViewController.token = token
             //flip over vc
            UIView.beginAnimations("animation", context: nil)
             UIView.setAnimationDuration(1.0)
@@ -167,24 +167,23 @@ private extension LoginViewController {
                            parameters: parameters,
                            encoding: JSONEncoding.default)
                 .validate()
-                .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { (response: DataResponse<LoginData>) in
+                .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { [weak self](response: DataResponse<LoginData>) in
                     switch response.result {
                     case .success(let loginData):
-                        if self.saveUserSelected {
-                            self.save(username: email, password: password)
+                        if self?.saveUserSelected ?? false {
+                            self?.save(username: email, password: password)
                         }
                         SVProgressHUD.showSuccess(withStatus: "Success")
-//                        guard let self = self else {return}
                         UserCredentials.shared.userToken = loginData.token
-                        //TODO: Change token
-                        self.token = loginData.token
+                    
+                        self?.token = loginData.token
                         // check if user has stored credentials, get them and login automaticly
-                        self.navigateFromLogin()
+                        self?.navigateFromLogin()
             
                     case .failure(let error):
                         SVProgressHUD.showError(withStatus: "Failure")
 //                        guard let self = self else {return}
-                        self.showAlert(title: "Error", message: error.localizedDescription)
+                        self?.showAlert(title: "Error", message: error.localizedDescription)
                         print(error.localizedDescription)
                     }
                 SVProgressHUD.dismiss()

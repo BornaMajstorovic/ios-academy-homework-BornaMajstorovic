@@ -251,6 +251,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <state key="normal" backgroundImage="ic-navigate-back"/>
                                 <connections>
+                                    <action selector="customBackButton:" destination="iuh-vJ-sXa" eventType="touchUpInside" id="rdk-d9-NXV"/>
                                     <action selector="customBackButtonSelected:" destination="RLv-PT-Ljb" eventType="touchUpInside" id="Bie-Xg-LI9"/>
                                 </connections>
                             </button>
@@ -339,6 +340,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i7c-P0-jwi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1126.0869565217392" y="-1873.6607142857142"/>
+        </scene>
+        <!--Comments View Controller-->
+        <scene sceneID="L9e-Jj-lka">
+            <objects>
+                <viewController storyboardIdentifier="CommentsViewController" id="iBJ-h1-4cR" customClass="CommentsViewController" customModule="TVShows" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dh0-We-Gzh">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="rVz-bp-UzS"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yHa-a0-Xeu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-330" y="-1871"/>
         </scene>
         <!--New Episode View Controller-->
         <scene sceneID="33W-yf-AoG">

@@ -20,8 +20,8 @@ final class NewEpisodeViewController: UIViewController {
     @IBOutlet private weak var episodeDescription: UITextField!
     
     // MARK: Properties
-    var showID: String?
-    var token: String?
+    var showID: String? = UserCredentials.shared.showId
+    var token: String? = UserCredentials.shared.userToken
     weak var delegate: ResultSuccessDelagate?
     let imagePicker = UIImagePickerController()
     var mediaId: String?
