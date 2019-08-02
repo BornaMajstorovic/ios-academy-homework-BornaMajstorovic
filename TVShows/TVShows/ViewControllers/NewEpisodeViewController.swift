@@ -42,6 +42,8 @@ final class NewEpisodeViewController: UIViewController {
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
         self.present(imagePicker, animated: true, completion: nil)
+        
+        sender.highlightButton()
     }
     
     

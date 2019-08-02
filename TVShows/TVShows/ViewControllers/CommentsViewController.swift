@@ -8,23 +8,40 @@
 
 import UIKit
 
-class CommentsViewController: UIViewController {
+final class CommentsViewController: UIViewController {
+    
+    // MARK: Outlets
+    @IBOutlet weak var tableView: UITableView!
+    
+    
+    //MARK: Properties
+    
+    
+    //MARK: Lifecycle methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpNavigationBar()
 
-        // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    //MARK: Actions
+    
+    
+    //MARK: Class methods
+     func setUpNavigationBar() {
+        navigationItem.title = "Comments"
+        let backButton = UIBarButtonItem(image: UIImage(named: "ic-navigate-back"), style: .plain, target: self, action: #selector(backButtonHandler))
+        navigationItem.leftBarButtonItem = backButton
     }
-    */
+    @objc func backButtonHandler() {
+       navigationController?.popViewController(animated: true)
+    }
 
+   
 }

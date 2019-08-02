@@ -9,7 +9,7 @@
 import Foundation
 import KeychainAccess
 
-class UserCredentials {
+final class UserCredentials {
     
     private let keychain = Keychain(service: "com.borna.TVShows")
     private let EMAIL_KEY = "email"

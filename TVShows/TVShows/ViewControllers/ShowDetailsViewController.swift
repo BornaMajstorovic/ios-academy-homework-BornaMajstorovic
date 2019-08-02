@@ -25,6 +25,7 @@ final class ShowDetailsViewController: UIViewController {
     var showID: String? = UserCredentials.shared.showId
     var token: String? = UserCredentials.shared.userToken
     var showObject: Show?
+    private var refreshControl = UIRefreshControl()
     
     private var episodes:[ShowEpisodes]? {
         didSet {
@@ -63,9 +64,13 @@ final class ShowDetailsViewController: UIViewController {
             newEpisodeViewController.delegate = self
             present(navigationController, animated: true, completion: nil)
         }
+        
+        sender.highlightButton()
     }
     @IBAction private func customBackButtonSelected(_ sender: UIButton) {
          navigationController?.popViewController(animated: true)
+        
+        sender.highlightButton()
     }
     
     //MARK: Class methods
@@ -76,6 +81,14 @@ final class ShowDetailsViewController: UIViewController {
         if let showObject = showObject {
             image.kf.setImage(with: showObject.fullImageUrl)
         }
+        refreshControl.addTarget(self, action: #selector(didPullToRefresh(_:)), for: .valueChanged)
+        tableView.alwaysBounceVertical = true
+        tableView.refreshControl = refreshControl
+        
+    }
+    
+    @objc private func didPullToRefresh(_ sender: Any) {
+        refreshControl.endRefreshing()
     }
     
     private func navigateFromShowDetails(showEpisodeobject: ShowEpisodes){

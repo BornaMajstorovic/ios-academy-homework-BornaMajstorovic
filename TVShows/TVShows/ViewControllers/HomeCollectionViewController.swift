@@ -11,7 +11,7 @@ import UIKit
 import Alamofire
 import SVProgressHUD
 import KeychainAccess
-//import Kingfisher
+import Kingfisher
 
 
 final class HomeCollectionViewController: UIViewController {
@@ -24,7 +24,7 @@ final class HomeCollectionViewController: UIViewController {
     var loginUser: User?
     var token: String? = UserCredentials.shared.userToken
     var keychain: Keychain?
-    private var showGridLayout: Bool = false
+    private var showGridLayout: Bool = true
     
     private var shows:[Show]? {
         didSet {
@@ -90,14 +90,14 @@ final class HomeCollectionViewController: UIViewController {
                     self.present(initialNavigationController, animated: true, completion: nil)
 
             } else {
-                //TODO: Show error
+                print("logout didn't happen")
             }
         }
     }
     
     @objc private func toggleActionHandler() {
         //toogle
-        navigationItem.rightBarButtonItem?.image = UIImage(named: "ic-listview")
+        navigationItem.rightBarButtonItem?.image = listImage
         showGridLayout.toggle()
         collectionView.reloadData()
         navigationItem.rightBarButtonItem?.image = showGridLayout ? gridImage : listImage
@@ -128,6 +128,7 @@ extension HomeCollectionViewController: UICollectionViewDelegate, UICollectionVi
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShowTableViewCell.IDENTIFIER, for: indexPath) as? ShowTableViewCell {
                 
                 if let showObject = shows?[indexPath.row] {
+                    UserCredentials.shared.showId = showObject.id
                     cell.configure(with: showObject)
                 }
                 return cell
@@ -204,7 +205,6 @@ extension HomeCollectionViewController{
                     self.fetchShows()
                 case .failure(let error):
                     SVProgressHUD.showError(withStatus: "Failure")
-                    guard let self = self else {return}
                     print(error.localizedDescription)
                 }
                 SVProgressHUD.dismiss()

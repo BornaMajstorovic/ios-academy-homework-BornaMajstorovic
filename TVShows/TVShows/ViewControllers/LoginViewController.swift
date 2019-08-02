@@ -17,10 +17,10 @@ final class LoginViewController: UIViewController {
     
     // MARK: Outlets
     
-    @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var checkBoxButton: UIButton!
-    @IBOutlet weak var loginButtonOutlet: UIButton!
+    @IBOutlet private weak var usernameTextField: UITextField!
+    @IBOutlet private weak var passwordTextField: UITextField!
+    @IBOutlet private weak var checkBoxButton: UIButton!
+    @IBOutlet private weak var loginButtonOutlet: UIButton!
     
     
     // MARK: Properties
@@ -46,12 +46,17 @@ final class LoginViewController: UIViewController {
 
     
     @IBAction func loginUserButton(_ sender: UIButton) {
-        guard let email = usernameTextField.text, let password = passwordTextField.text, !email.isEmpty, !password.isEmpty
+        guard
+            let email = usernameTextField.text,
+            let password = passwordTextField.text,
+            !email.isEmpty,
+            !password.isEmpty
         else {
                 print("Username or password is empty")
                 return
         }
         loginUserWith(email: email, password: password)
+        
         sender.highlightButton()
     }
     
@@ -74,6 +79,8 @@ final class LoginViewController: UIViewController {
             return
         }
           registerUserWith(email: email, password: password)
+        
+         sender.highlightButton()
     }
     
     @IBAction func checkButtonState(_ sender: UIButton) {
@@ -96,14 +103,13 @@ final class LoginViewController: UIViewController {
         let storyBoard = UIStoryboard(name: "Login", bundle: nil)
         
         if let homeCollectionViewController = storyBoard.instantiateViewController(withIdentifier: "HomeCollectionViewController") as? HomeCollectionViewController {
-         //   homeCollectionViewController.token = token
             //flip over vc
-           UIView.beginAnimations("animation", context: nil)
+            UIView.beginAnimations("animation", context: nil)
             UIView.setAnimationDuration(1.0)
             //setvc ide novi stack
             let navigationController = self.navigationController
             navigationController?.setViewControllers([self, homeCollectionViewController], animated: false)
-         UIView.setAnimationTransition(UIView.AnimationTransition.flipFromLeft, for: (self.navigationController?.view)!, cache: false)
+            UIView.setAnimationTransition(UIView.AnimationTransition.flipFromLeft, for: (self.navigationController?.view)!, cache: false)
             UIView.commitAnimations()
         }
     }

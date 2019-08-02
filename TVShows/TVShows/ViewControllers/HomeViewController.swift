@@ -41,7 +41,7 @@ final class HomeViewController: UIViewController {
         let storyBoard = UIStoryboard(name: "Login", bundle: nil)
         
       if let showDetailsViewController = storyBoard.instantiateViewController(withIdentifier:"ShowDetailsViewController") as? ShowDetailsViewController  {
-            showDetailsViewController.showID = showObject.id
+            // showDetailsViewController.showID = showObject.id
             showDetailsViewController.token = token
         
         navigationController?.pushViewController(showDetailsViewController, animated: true)

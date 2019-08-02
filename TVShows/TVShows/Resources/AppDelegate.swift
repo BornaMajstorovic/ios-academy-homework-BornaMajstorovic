@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func showLoginVC() {
         if let initialNavigationController = storyboard.instantiateViewController(withIdentifier: initialVCIdentifier) as? UINavigationController {
-            let loginViewController = storyboard.instantiateViewController(withIdentifier: loginVCIdentifier)
+            let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
             initialNavigationController.viewControllers = [loginViewController]
             window?.rootViewController = initialNavigationController
             window?.makeKeyAndVisible()

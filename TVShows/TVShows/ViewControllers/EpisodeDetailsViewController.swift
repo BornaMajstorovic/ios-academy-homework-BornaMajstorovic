@@ -31,21 +31,20 @@ final class EpisodeDetailsViewController: UIViewController {
         attributedSeasonAndEpisode()
         
     }
-    
-    private func setupView() {
-        if let showObject = showObject {
-            imageView.kf.setImage(with: showObject.fullImageUrl)
-        }
-        titleLabel.text = episodeObject?.title
-        episodeDescription.text = episodeObject?.description
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
     }
+    
+    
     
     // MARK: Actions
     @IBAction func navigateToComments(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Login", bundle: nil)
         if let commentsViewController = storyboard.instantiateViewController(withIdentifier: "CommentsViewController") as? CommentsViewController {
-            navigationController?.pushViewController(commentsViewController, animated: true)
+           // let navigationController = UINavigationController(rootViewController: commentsViewController)
+          navigationController?.pushViewController(commentsViewController, animated: true)
         }
         
     }
@@ -76,6 +75,15 @@ final class EpisodeDetailsViewController: UIViewController {
         let attributedSeasonAndEp = NSMutableAttributedString(string: seasonAndEp, attributes: attributes)
         
         seasonLabel.attributedText = attributedSeasonAndEp
+    }
+    
+    private func setupView() {
+        if let showObject = showObject {
+            imageView.kf.setImage(with: showObject.fullImageUrl)
+        }
+        titleLabel.text = episodeObject?.title
+        episodeDescription.text = episodeObject?.description
+        
     }
     
 }
