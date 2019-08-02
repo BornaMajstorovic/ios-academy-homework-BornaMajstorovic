@@ -32,6 +32,7 @@ final class HomeCollectionViewController: UIViewController {
         }
     }
     
+    
     private let gridImage = UIImage(named: "ic-gridview")
     private let listImage = UIImage(named: "ic-listview")
     
@@ -79,7 +80,7 @@ final class HomeCollectionViewController: UIViewController {
         navigationItem.rightBarButtonItem = gridView
         
     }
-    //on logout deleate all stored credentials
+    //on logout deleate all stored  credentials
     
     @objc private func logoutActionHandler() {
         UserCredentials.shared.deleteUser { userDeleted in

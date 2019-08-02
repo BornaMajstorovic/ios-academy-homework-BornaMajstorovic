@@ -18,6 +18,7 @@ struct User: Codable {
         case type
         case id = "_id"
     }
+    
 }
 struct LoginData: Codable {
     let token: String
