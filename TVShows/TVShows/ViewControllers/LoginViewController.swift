@@ -119,6 +119,7 @@ final class LoginViewController: UIViewController {
         checkBoxButton.setImage(UIImage(named: "ic-checkbox-empty"), for: .normal)
         checkBoxButton.setImage(UIImage(named: "ic-checkbox-filled"), for: .selected)
     }
+    
 }
 
 
@@ -142,7 +143,7 @@ private extension LoginViewController {
                           parameters: parameters,
                           encoding: JSONEncoding.default)
                  .validate()
-                 .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { [weak self](response: DataResponse<User>) in
+                 .responseDecodableObject(keyPath: "data", decoder: JSONDecoder()) { [weak self] (response: DataResponse<User>) in
                     switch response.result {
                         case .success(let user):
                             SVProgressHUD.showSuccess(withStatus: "Success")
@@ -155,7 +156,6 @@ private extension LoginViewController {
                         }
                      SVProgressHUD.dismiss()
                 }
-        
     }
 }
 
