@@ -22,8 +22,12 @@ final class ShowDetailsViewController: UIViewController {
     @IBOutlet private weak var customBackButton: UIButton!
     
     // MARK: Properties
-    var showID: String? = UserCredentials.shared.showId
-    var token: String? = UserCredentials.shared.userToken
+    var showID: String? {
+        return UserCredentials.shared.showId
+    }
+    var token: String? {
+        return UserCredentials.shared.userToken
+    }
     var showObject: Show?
     private var refreshControl = UIRefreshControl()
     

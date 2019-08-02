@@ -10,9 +10,9 @@ import Foundation
 
 struct Media: Decodable {
  
-    let mediaId: String
+    let id: String
     
     enum CodingKeys: String, CodingKey {
-        case mediaId
+        case id = "_id"
     }
 }

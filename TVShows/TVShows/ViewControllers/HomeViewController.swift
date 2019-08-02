@@ -42,7 +42,7 @@ final class HomeViewController: UIViewController {
         
       if let showDetailsViewController = storyBoard.instantiateViewController(withIdentifier:"ShowDetailsViewController") as? ShowDetailsViewController  {
             // showDetailsViewController.showID = showObject.id
-            showDetailsViewController.token = token
+        UserCredentials.shared.userToken = token
         
         navigationController?.pushViewController(showDetailsViewController, animated: true)
         }

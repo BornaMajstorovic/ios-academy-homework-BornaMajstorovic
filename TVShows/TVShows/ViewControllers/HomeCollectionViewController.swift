@@ -68,6 +68,7 @@ final class HomeCollectionViewController: UIViewController {
         
         if let showDetailsViewController = storyBoard.instantiateViewController(withIdentifier: "ShowDetailsViewController") as? ShowDetailsViewController {
             showDetailsViewController.showObject = showObject
+            UserCredentials.shared.showId = showObject.id
             navigationController?.pushViewController(showDetailsViewController, animated: true)
         }
     }

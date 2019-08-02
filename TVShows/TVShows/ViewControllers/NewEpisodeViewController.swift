@@ -161,7 +161,7 @@ extension NewEpisodeViewController {
             .responseDecodableObject(keyPath: "data") { (response: DataResponse<Media>) in
                 switch response.result {
                 case .success(let media):
-                    self.mediaId = media.mediaId
+                    self.mediaId = media.id
                     print("DECODED: \(media)")
                     print("Proceed to add episode call...")
                 case .failure(let error):
