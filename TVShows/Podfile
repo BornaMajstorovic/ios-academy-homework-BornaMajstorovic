@@ -9,7 +9,6 @@ target 'TVShows' do
   pod "Alamofire"
   pod "SVProgressHUD"
   pod "CodableAlamofire"
-  pod "PromiseKit/CorePromise"
-  pod "PromiseKit/Alamofire"
-  
+  pod "Kingfisher"
+  pod "KeychainAccess"
 end

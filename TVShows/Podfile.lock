@@ -2,32 +2,32 @@ PODS:
   - Alamofire (4.8.2)
   - CodableAlamofire (1.1.1):
     - Alamofire (~> 4.0)
-  - PromiseKit/Alamofire (6.10.0):
-    - Alamofire (~> 4.0)
-    - PromiseKit/CorePromise
-  - PromiseKit/CorePromise (6.10.0)
+  - KeychainAccess (3.2.0)
+  - Kingfisher (5.7.0)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
   - Alamofire
   - CodableAlamofire
-  - PromiseKit/Alamofire
-  - PromiseKit/CorePromise
+  - KeychainAccess
+  - Kingfisher
   - SVProgressHUD
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - CodableAlamofire
-    - PromiseKit
+    - KeychainAccess
+    - Kingfisher
     - SVProgressHUD
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   CodableAlamofire: b587c1198562824abb1f468aed34feb00d6cecd8
-  PromiseKit: 1fdaeb6c0a94a5114fcb814ff3d772b86886ad4e
+  KeychainAccess: 3b1bf8a77eb4c6ea1ce9404c292e48f948954c6b
+  Kingfisher: c7d211b54f1f30d8060aadab177d52b4349c825b
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 1b7e54acb988817064bf2f3d9879b5ebc71fa910
+PODFILE CHECKSUM: 32441bb61ea3bbb0a83e0723e573526053dd34f4
 
 COCOAPODS: 1.7.3
