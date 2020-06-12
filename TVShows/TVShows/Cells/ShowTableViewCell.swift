@@ -18,6 +18,5 @@ class ShowTableViewCell: UICollectionViewCell {
     func configure(with showObject:Show) {
         titleLabel.text = showObject.title
         showImage.kf.setImage(with: showObject.fullImageUrl)
-        
     }
 }
